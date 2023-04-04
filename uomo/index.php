@@ -1,1 +1,0 @@
-<?php header("location: ./search?age=ADULT&gender=MAN"); ?>
