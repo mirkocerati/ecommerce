@@ -13,7 +13,7 @@
   <!-- Basic Page Needs
   ================================================== -->
   <meta charset="utf-8">
-  <title>Risultato ricercaik</title>
+  <title>Risultato ricerca</title>
 
   <!-- Mobile Specific Metas
   ================================================== -->
@@ -325,18 +325,22 @@
 		<div class="row">
 			
 			<?php 
-			
+			echo "check1";
 			require("database/connection_manager.php");
+			echo "check2";
 
 			// preparo
 			$statement = Connection::get()->getConnection()->prepare("SELECT * FROM products");
+			echo "check3";
 
 			// esegui la query e salvo il risultato
 			$statement->execute();
 			$query_result = $statement->get_result();
   
+			echo "check4";
 			// se la query ha prodotto risultato (quindi user+pass giusti) salvo l'id in sessione
 			if($query_result->num_rows > 0) {
+				echo "works!!";
 			  while($row = $query_result->fetch_assoc()) {
 				$code = $row["code"];
 				$name = $row["name"];
@@ -347,7 +351,7 @@
 				$age = $row["age"];
 				$time_published = $row["time_published"];
 				$hidden = $row["hidden"];
-				$stock = $row["stock"];
+				$stock = $row["stock_amount"];
 
 			$html = '	
 
@@ -414,9 +418,11 @@
 
 		';
 
-		echo $table_row;
+		echo $html;
 			  }
-			}
+			} else {
+				echo "No products found.";
+			  }
   
 			// chiudo la connessione
 			$stmt->close();

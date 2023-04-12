@@ -1,11 +1,6 @@
 <?php
 
-class Connection {
-
-    private $host = "localhost";
-    private $username = "cerati";
-    private $password = "";
-    private $name = "my_cerati";
+final class Connection {
 
     private static $instance = null;
 
@@ -23,10 +18,10 @@ class Connection {
     }
 
     private function init() {
-        $connection = new mysqli($host, $username, $password, $name);
+        $connection = new mysqli("localhost:3306", "aviato", "xx@xx", "aviato");
 
         if ($connection->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+            die("Connection failed: " . $connection->connect_error);
         }
     }
 
