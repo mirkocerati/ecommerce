@@ -25,9 +25,17 @@ final class Connection {
         }
     }
 
+    /*public function getConnection() {
+        return $this->$connection;
+    }*/
+
     public function getConnection() {
-        //return $this->$connection;
-        return new mysqli("localhost:3306", "aviato", "xx@xx", "aviato");
+        $connection = new mysqli("localhost:3306", "aviato", "xx@xx", "aviato");
+
+        if ($connection->connect_error) {
+            die("Connection failed: " . $connection->connect_error);
+        }
+        return $connection;
     }
 
 }

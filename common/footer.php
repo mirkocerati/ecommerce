@@ -35,13 +35,10 @@
 						<a href="contact.html">Privacy</a>
 					</li>
 					<li>
-						<a href="pricing.html">Spedizione</a>
+						<a href="pricing.html">Spedizione, restituzioni e rimborsi</a>
 					</li>
 					<li>
-						<a href="pricing.html">Ottieni un rimborso</a>
-					</li>
-					<li>
-						<a href="pricing.html">Segnala un problema</a>
+						<a href="contact.php">Contattaci</a>
 					</li>
 				</ul>
 				<p class="copyright-text">Copyright &copy;2023, Mirko Cerati</a></p>

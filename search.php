@@ -68,7 +68,7 @@
 			
 			<?php 
 
-			require_once("database/connection_manager.php");
+			require("database/connection_manager.php");
 
 
 			// preparo
@@ -80,7 +80,7 @@
   
 
 			echo $query_result;
-			// se la query ha prodotto risultato (quindi user+pass giusti) salvo l'id in sessione
+			// se la query ha prodotto risultato 
 			if($query_result->num_rows > 0) {
 				echo "works!!";
 			  while($row = $query_result->fetch_assoc()) {
