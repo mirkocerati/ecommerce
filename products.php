@@ -1,3 +1,9 @@
+<?php
+
+require('database/DBManager.php');
+
+?>
+
 <!DOCTYPE html>
 
 <!--
@@ -69,12 +75,12 @@
 
 				<?php
 
-				require('database/DBManager.php');
+				//require("database/DBManager.php");
 
 				$query_result = DBManager::getInstance()->Select("SELECT * FROM products WHERE hidden=FALSE");
 
 				foreach ($query_result as $row) {
-					$code = $row["code"];
+					$code = $row["id"];
 					$name = $row["name"];
 					$description = $row["description"];
 					$price = $row["price"];
@@ -85,7 +91,7 @@
 					$hidden = $row["hidden"];
 					$stock = $row["stock_amount"];
 
-					$image_query_result = DBManager::getInstance()->Select("SELECT image_url FROM images WHERE product_code=" . $code . " LIMIT 1");
+					$image_query_result = DBManager::getInstance()->Select("SELECT image_url FROM product_images WHERE product_code=" . $code . " LIMIT 1");
 
 					$image_url = "https://mirko.lol/images/products/not_found.jpg";
 

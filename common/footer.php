@@ -41,7 +41,7 @@
 						<a href="contact.php">Contattaci</a>
 					</li>
 				</ul>
-				<p class="copyright-text">Copyright &copy;2023, Mirko Cerati</a></p>
+				<p class="copyright-text">Copyright &copy; 2023, Aviato</a></p>
 				<p class="copyright-text"><a href="https://github.com/mirkocerati/ecommerce">Codice sorgente</a></p>
 				<p class="copyright-text" style="font-size: 80%;">Tema e stile da <a href="https://themefisher.com/">Themefisher</a></p>
 			</div>

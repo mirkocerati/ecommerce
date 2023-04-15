@@ -1,3 +1,8 @@
+<?php
+
+require('database/DBManager.php');
+
+?>
 <!DOCTYPE html>
 
 <!--
@@ -53,8 +58,6 @@
 
 	<div class="hero-slider">
 		<?php
-
-		require('database/DBManager.php');
 
 		$result = DBManager::getInstance()->Select("SELECT * FROM boards WHERE enabled=TRUE");
 

@@ -1,4 +1,24 @@
-<?php echo '<section class="top-header">
+<?php 
+
+$query_result = DBManager::getInstance()->Select("SELECT id, name FROM categories WHERE hidden=FALSE");
+
+$man = "";
+$woman = "";
+$child = "";
+
+foreach($query_result as $row) {
+	$id = $row["id"];
+	$name = $row["name"];
+	$man .= '<li><a href="products.php?category=' . $id . '&gender=MAN&age=ADULT">' . $name . '</a></li>';
+	$woman .= '<li><a href="products.php?category=' . $id . '&gender=WOMAN&age=ADULT">' . $name . '</a></li>';
+	$child .= '<li><a href="products.php?category=' . $id . '&age=CHILD">' . $name . '</a></li>';
+}
+
+
+$man .= '<li><a href="products.php?gender=MAN&age=ADULT"><b>Visualizza tutto</b></a></li>';
+$woman .= '<li><a href="products.php?gender=WOMAN&age=ADULT"><b>Visualizza tutto</b></a></li>';
+$child .= '<li><a href="products.php?age=CHILD"><b>Visualizza tutto</b></a></li>';
+echo '<section class="top-header">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4 col-xs-12 col-sm-4">
@@ -94,8 +114,6 @@
 		</div>
 	</div>
 </section><!-- End Top Header Bar -->
-
-
 <!-- Main Menu Section -->
 <section class="menu">
 	<nav class="navbar navigation">
@@ -131,29 +149,13 @@
 							<div class="row">
 
 								<!-- Basic -->
-								<div class="col-lg-6 col-md-6 mb-sm-3">
+								<div class="col-lg-12 col-md-12 mb-sm-6">
 									<ul>
-										<li class="dropdown-header">Pages</li>
-										<li role="separator" class="divider"></li>
-										<li><a href="shop.html">Shop</a></li>
-										<li><a href="checkout.html">Checkout</a></li>
-										<li><a href="cart.html">Cart</a></li>
-										<li><a href="pricing.html">Pricing</a></li>
-										<li><a href="confirmation.html">Confirmation</a></li>
+										'.$man.'
 
 									</ul>
 								</div>
 
-								<!-- Layout -->
-								<div class="col-lg-6 col-md-6 mb-sm-3">
-									<ul>
-										<li class="dropdown-header">Layout</li>
-										<li role="separator" class="divider"></li>
-										<li><a href="product-single.html">Product Details</a></li>
-										<li><a href="shop-sidebar.html">Shop With Sidebar</a></li>
-
-									</ul>
-								</div>
 
 							</div><!-- / .row -->
 						</div><!-- / .dropdown-menu -->
@@ -168,29 +170,14 @@
 							<div class="row">
 
 								<!-- Basic -->
-								<div class="col-lg-6 col-md-6 mb-sm-3">
+								<div class="col-lg-12 col-md-12 mb-sm-6">
 									<ul>
-										<li class="dropdown-header">Pages</li>
-										<li role="separator" class="divider"></li>
-										<li><a href="shop.html">Shop</a></li>
-										<li><a href="checkout.html">Checkout</a></li>
-										<li><a href="cart.html">Cart</a></li>
-										<li><a href="pricing.html">Pricing</a></li>
-										<li><a href="confirmation.html">Confirmation</a></li>
+										'.$woman.'
 
 									</ul>
 								</div>
 
-								<!-- Layout -->
-								<div class="col-lg-6 col-md-6 mb-sm-3">
-									<ul>
-										<li class="dropdown-header">Layout</li>
-										<li role="separator" class="divider"></li>
-										<li><a href="product-single.html">Product Details</a></li>
-										<li><a href="shop-sidebar.html">Shop With Sidebar</a></li>
-
-									</ul>
-								</div>
+							
 
 							</div><!-- / .row -->
 						</div><!-- / .dropdown-menu -->
@@ -205,26 +192,9 @@
 							<div class="row">
 
 								<!-- Basic -->
-								<div class="col-lg-6 col-md-6 mb-sm-3">
+								<div class="col-lg-12 col-md-12 mb-sm-6">
 									<ul>
-										<li class="dropdown-header">Pages</li>
-										<li role="separator" class="divider"></li>
-										<li><a href="shop.html">Shop</a></li>
-										<li><a href="checkout.html">Checkout</a></li>
-										<li><a href="cart.html">Cart</a></li>
-										<li><a href="pricing.html">Pricing</a></li>
-										<li><a href="confirmation.html">Confirmation</a></li>
-
-									</ul>
-								</div>
-
-								<!-- Layout -->
-								<div class="col-lg-6 col-md-6 mb-sm-3">
-									<ul>
-										<li class="dropdown-header">Layout</li>
-										<li role="separator" class="divider"></li>
-										<li><a href="product-single.html">Product Details</a></li>
-										<li><a href="shop-sidebar.html">Shop With Sidebar</a></li>
+										'.$child.'
 
 									</ul>
 								</div>
@@ -235,7 +205,7 @@
 
 					<!-- Home -->
 					<li class="dropdown ">
-					    <a style="color: red;" href="index.php">SALDI</a>
+					    <a style="color: red;" href="products.php?sale=true">SALDI</a>
 					</li><!-- / Home -->
 				</ul><!-- / .nav .navbar-nav -->
 
@@ -243,4 +213,6 @@
 			<!--/.navbar-collapse -->
 		</div><!-- / .container -->
 	</nav>
-</section>'; ?>
+</section>'; 
+
+?>
