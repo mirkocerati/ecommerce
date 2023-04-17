@@ -27,8 +27,6 @@ require('database/DBManager.php');
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="description" content="Construction Html5 Template">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-	<meta name="author" content="Themefisher">
-	<meta name="generator" content="Themefisher Constra HTML Template v1.0">
 
 	<!-- Favicon -->
 	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
@@ -51,7 +49,7 @@ require('database/DBManager.php');
 
 <body id="body">
 
-	<?php include 'common/header.php'; ?>
+	<?php require('common/header.php'); ?>
 
 	<section class="page-header">
 		<div class="container">
@@ -75,97 +73,16 @@ require('database/DBManager.php');
 
 				<?php
 
-				//require("database/DBManager.php");
-
 				$query_result = DBManager::getInstance()->Select("SELECT * FROM products WHERE hidden=FALSE");
 
-				foreach ($query_result as $row) {
-					$code = $row["id"];
-					$name = $row["name"];
-					$description = $row["description"];
-					$price = $row["price"];
-					$category = $row["category"];
-					$gender = $row["gender"];
-					$age = $row["age"];
-					$time_published = $row["time_published"];
-					$hidden = $row["hidden"];
-					$stock = $row["stock_amount"];
+				require('common/product-button-creator.php');
+				require('common/product-image-query.php');
 
-					$image_query_result = DBManager::getInstance()->Select("SELECT image_url FROM product_images WHERE product_code=" . $code . " LIMIT 1");
-
-					$image_url = "https://mirko.lol/images/products/not_found.jpg";
-
-					foreach ($image_query_result as $row) {
-						$image_url = $row["image_url"];
-					}
-
-					$html = '	
-
-			<div class="col-md-4">
-				<div class="product-item">
-					<div class="product-thumb">
-						<span class="bage">Sale</span>
-						<img class="img-responsive" src="' . $image_url . '" alt="product-img" />
-						<div class="preview-meta">
-							<ul>
-								<li>
-									<span  data-toggle="modal" data-target="#' . $code . 'product-modal">
-										<i class="tf-ion-ios-search-strong"></i>
-									</span>
-								</li>
-								<li>
-			                        <a href="add_to_wishlist.php?code=' . $code . '" ><i class="tf-ion-ios-heart"></i></a>
-								</li>
-								<li>
-									<a href="add_to_cart.php?code=' . $code . '"><i class="tf-ion-android-cart"></i></a>
-								</li>
-							</ul>
-                      	</div>
-					</div>
-					<div class="product-content">
-						<h4><a href="view_product.php?code=' . $code . '">' . $name . '</a></h4>
-						<p class="price">' . $price . '</p>
-					</div>
-				</div>
-			</div>
-		
-		<!-- Modal -->
-		<div class="modal product-modal fade" id="' . $code . 'product-modal">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<i class="tf-ion-close"></i>
-			</button>
-		  	<div class="modal-dialog " role="document">
-		    	<div class="modal-content">
-			      	<div class="modal-body">
-			        	<div class="row">
-			        		<div class="col-md-8 col-sm-6 col-xs-12">
-			        			<div class="modal-image">
-				        			<img class="img-responsive" src="' . $image_url . '" alt="product-img" />
-			        			</div>
-			        		</div>
-			        		<div class="col-md-4 col-sm-6 col-xs-12">
-			        			<div class="product-short-details">
-			        				<h2 class="product-title">' . $name . '</h2>
-			        				<p class="product-price">' . $price . '</p>
-			        				<p class="product-short-description">
-									' . $description . '
-			        				</p>
-			        				<a href="cart.html" class="btn btn-main">Aggiungi al carrello</a>
-			        				<a href="product-single.html" class="btn btn-transparent">Visualizza dettagli</a>
-			        			</div>
-			        		</div>
-			        	</div>
-			        </div>
-		    	</div>
-		  	</div>
-		</div><!-- /.modal -->
-
-
-
-		';
-
-					echo $html;
+				foreach($query_result as $row) {
+					$image_url = get_product_image($row["id"]);
+					print_product($row["id"], $row["name"], $row["description"], $row["price"], $row["category"], $row["gender"], $row["age"], $row["time_published"], $row["stock_amount"], $image_url);
 				}
+
 				?>
 
 			</div>
@@ -187,8 +104,6 @@ require('database/DBManager.php');
 	<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
 	<!-- Bootstrap Touchpin -->
 	<script src="plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
-	<!-- Instagram Feed Js -->
-	<script src="plugins/instafeed/instafeed.min.js"></script>
 	<!-- Video Lightbox Plugin -->
 	<script src="plugins/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
 	<!-- Count Down Js -->
@@ -197,10 +112,6 @@ require('database/DBManager.php');
 	<!-- slick Carousel -->
 	<script src="plugins/slick/slick.min.js"></script>
 	<script src="plugins/slick/slick-animation.min.js"></script>
-
-	<!-- Google Mapl -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
-	<script type="text/javascript" src="plugins/google-map/gmap.js"></script>
 
 	<!-- Main Js File -->
 	<script src="js/script.js"></script>
