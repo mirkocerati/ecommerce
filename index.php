@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require('database/DBManager.php');
 
 ?>
@@ -54,7 +54,7 @@ require('database/DBManager.php');
 <body id="body">
 
 	<!-- Start Top Header Bar -->
-	<?php include 'common/header.php' ?>
+	<?php include 'common/header.php';?>
 
 	<div class="hero-slider">
 		<?php

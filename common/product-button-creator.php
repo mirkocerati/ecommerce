@@ -19,7 +19,7 @@ function print_product($id, $name, $description, $price, $category, $gender, $ag
                       	</div>
 					</div>
 					<div class="product-content">
-						<h4><a href="view_product.php?code=' . $id . '">' . $name . '</a></h4>
+						<h4><a href="product.php?id=' . $id . '">' . $name . '</a></h4>
 						<p class="price">' . $price . '</p>
 					</div>
 				</div>
@@ -47,7 +47,7 @@ function print_product($id, $name, $description, $price, $category, $gender, $ag
 									' . $description . '
 			        				</p>
 			        				<a href="cart.html" class="btn btn-main">Aggiungi al carrello</a>
-			        				<a href="product-single.html" class="btn btn-transparent">Visualizza dettagli</a>
+			        				<a href="product.php?id='.$id.'" class="btn btn-transparent">Visualizza dettagli</a>
 			        			</div>
 			        		</div>
 			        	</div>
