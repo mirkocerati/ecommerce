@@ -46,7 +46,6 @@ foreach($query_result as $row) {
   <!-- Mobile Specific Metas
   ================================================== -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="Construction Html5 Template">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   
   <!-- Favicon -->
@@ -93,64 +92,68 @@ require_once('common/header.php'); ?>
 			<div class="col-md-5">
 				<div class="single-product-slider">
 					<div id='carousel-custom' class='carousel slide' data-ride='carousel'>
-						<div class='carousel-outer'>
-							<!-- me art lab slider -->
+						<?php
+						function fetch_images($product_id) {
+							$html1 = '<div class"carousel-outer"><div class="carousel-inner">';
+							$html2 = '<ol class="carousel-indicators mCustomScrollbar meartlab">';
+
+							$images_query_result = DBManager::getInstance()->Select("SELECT image_url FROM product_images WHERE product_id=?", ["i", (int)$product_id]);
+
+							if(count($images_query_result) < 1) {
+								echo "nessuna immagine"; die();
+							}
+							
+							$counter = 0;
+
+							foreach($images_query_result as $row) {
+								$active = "";
+								$active2 = "";
+								if($counter == 0) {
+									$active = "active";
+									$active2 = 'class="active"';
+								}
+
+								$html1 .= '<div class="item '.$active.'"><img src="'.$row["image_url"].'" alt="" data-zoom-image="'.$row["image_url"].'" /></div>';
+								$html2 .= '<li data-target="#carousel-custom" data-slide-to="'.$counter.'" '.$active2.'><img src="'.$row["image_url"].'" alt="" /></li>';
+								$counter++;
+							}
+
+							$html1 .= '</div><!-- sag sol --><a class="left carousel-control" href="#carousel-custom" data-slide="prev"><i class="tf-ion-ios-arrow-left"></i></a><a class="right carousel-control" href="#carousel-custom" data-slide="next"><i class="tf-ion-ios-arrow-right"></i></a></div>';
+							$html2 .= '</ol>';
+
+							echo $html1;
+							echo $html2;
+						}
+						fetch_images($id);
+						?>
+						<!--<div class='carousel-outer'>
+							 me art lab slider
 							<div class='carousel-inner '>
 								<div class='item active'>
-									<img src='images/shop/single-products/product-1.jpg' alt='' data-zoom-image="images/shop/single-products/product-1.jpg" />
+									<img src='https://mirko.lol/images/products/4-1.jpg' alt='' data-zoom-image="https://mirko.lol/images/products/4-1.jpg" />
 								</div>
 								<div class='item'>
-									<img src='images/shop/single-products/product-2.jpg' alt='' data-zoom-image="images/shop/single-products/product-2.jpg" />
-								</div>
-								
-								<div class='item'>
-									<img src='images/shop/single-products/product-3.jpg' alt='' data-zoom-image="images/shop/single-products/product-3.jpg" />
-								</div>
-								<div class='item'>
-									<img src='images/shop/single-products/product-4.jpg' alt='' data-zoom-image="images/shop/single-products/product-4.jpg" />
-								</div>
-								<div class='item'>
-									<img src='images/shop/single-products/product-5.jpg' alt='' data-zoom-image="images/shop/single-products/product-5.jpg" />
-								</div>
-								<div class='item'>
-									<img src='images/shop/single-products/product-6.jpg' alt='' data-zoom-image="images/shop/single-products/product-6.jpg" />
+									<img src='https://mirko.lol/images/products/pngwing.com.png' alt='' data-zoom-image="https://mirko.lol/images/products/pngwing.com.png" />
 								</div>
 								
 							</div>
 							
-							<!-- sag sol -->
 							<a class='left carousel-control' href='#carousel-custom' data-slide='prev'>
 								<i class="tf-ion-ios-arrow-left"></i>
 							</a>
 							<a class='right carousel-control' href='#carousel-custom' data-slide='next'>
 								<i class="tf-ion-ios-arrow-right"></i>
 							</a>
-						</div>
+						</div> 
 						
-						<!-- thumb -->
 						<ol class='carousel-indicators mCustomScrollbar meartlab'>
 							<li data-target='#carousel-custom' data-slide-to='0' class='active'>
-								<img src='images/shop/single-products/product-1.jpg' alt='' />
+								<img src='https://mirko.lol/images/products/4-1.jpg' alt='' />
 							</li>
 							<li data-target='#carousel-custom' data-slide-to='1'>
-								<img src='images/shop/single-products/product-2.jpg' alt='' />
+								<img src='https://mirko.lol/images/products/pngwing.com.png' alt='' />
 							</li>
-							<li data-target='#carousel-custom' data-slide-to='2'>
-								<img src='images/shop/single-products/product-3.jpg' alt='' />
-							</li>
-							<li data-target='#carousel-custom' data-slide-to='3'>
-								<img src='images/shop/single-products/product-4.jpg' alt='' />
-							</li>
-							<li data-target='#carousel-custom' data-slide-to='4'>
-								<img src='images/shop/single-products/product-5.jpg' alt='' />
-							</li>
-							<li data-target='#carousel-custom' data-slide-to='5'>
-								<img src='images/shop/single-products/product-6.jpg' alt='' />
-							</li>
-							<li data-target='#carousel-custom' data-slide-to='6'>
-								<img src='images/shop/single-products/product-7.jpg' alt='' />
-							</li>
-						</ol>
+						</ol> -->
 					</div>
 				</div>
 			</div>
@@ -162,6 +165,7 @@ require_once('common/header.php'); ?>
 					<p class="product-description mt-20">
 					<?php echo $description; ?>
 					</p>
+					<!--
 					<div class="color-swatches">
 						<span>color:</span>
 						<ul>
@@ -190,32 +194,26 @@ require_once('common/header.php'); ?>
 						<div class="product-quantity-slider">
 							<input id="product-quantity" type="text" value="0" name="product-quantity">
 						</div>
-					</div>
-					<div class="product-category">
-						<span>Categories:</span>
-						<ul>
-							<li><a href="product-single.html">Products</a></li>
-							<li><a href="product-single.html">Soap</a></li>
-						</ul>
-					</div>
-					<a href="cart.html" class="btn btn-main mt-20">Add To Cart</a>
+					</div> -->
+					<a href="https://mirko.lol/cart/add.php?id=<?php echo $id; ?>" class="btn btn-main mt-20">Aggiungi al carrello</a>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="tabCommon mt-20">
-					<ul class="nav nav-tabs">
-						<li class="active"><a data-toggle="tab" href="#details" aria-expanded="true">Details</a></li>
-						<li class=""><a data-toggle="tab" href="#reviews" aria-expanded="false">Reviews (3)</a></li>
-					</ul>
 					<div class="tab-content patternbg">
-						<div id="details" class="tab-pane fade active in">
-							<h4>Product Description</h4>
+						<div>
+							<h4>Dettagli</h4>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut per spici</p>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis delectus quidem repudiandae veniam distinctio repellendus magni pariatur molestiae asperiores animi, eos quod iusto hic doloremque iste a, nisi iure at unde molestias enim fugit, nulla voluptatibus. Deserunt voluptate tempora aut illum harum, deleniti laborum animi neque, praesentium explicabo, debitis ipsa?</p>
 						</div>
-						<div id="reviews" class="tab-pane fade">
+					</div>
+					<br>
+					<div class="tab-content patternbg">
+						<div>
+
+						<h4>Cosa ne pensano gli altri utenti</h4>
 							<div class="post-comments">
 						    	<ul class="media-list comments-list m-bot-50 clearlist">
 								    <!-- Comment Item start-->
@@ -242,57 +240,6 @@ require_once('common/header.php'); ?>
 
 								    </li>
 								    <!-- End Comment Item -->
-
-								    <!-- Comment Item start-->
-								    <li class="media">
-
-								        <a class="pull-left" href="#!">
-								            <img class="media-object comment-avatar" src="images/blog/avater-4.jpg" alt="" width="50" height="50" />
-								        </a>
-
-								        <div class="media-body">
-
-								            <div class="comment-info">
-								                <div class="comment-author">
-								                    <a href="#!">Jonathon Andrew</a>
-								                </div>
-								                <time datetime="2013-04-06T13:53">July 02, 2015, at 11:34</time>
-								                <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>Reply</a>
-								            </div>
-
-								            <p>
-								                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at magna ut ante eleifend eleifend. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni natus, nostrum iste non delectus atque ab a accusantium optio, dolor!
-								            </p>
-
-								        </div>
-
-								    </li>
-								    <!-- End Comment Item -->
-
-								    <!-- Comment Item start-->
-								    <li class="media">
-
-								        <a class="pull-left" href="#!">
-								            <img class="media-object comment-avatar" src="images/blog/avater-1.jpg" alt="" width="50" height="50">
-								        </a>
-
-								        <div class="media-body">
-
-								            <div class="comment-info">
-								                <div class="comment-author">
-								                    <a href="#!">Jonathon Andrew</a>
-								                </div>
-								                <time datetime="2013-04-06T13:53">July 02, 2015, at 11:34</time>
-								                <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>Reply</a>
-								            </div>
-
-								            <p>
-								                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at magna ut ante eleifend eleifend.
-								            </p>
-
-								        </div>
-
-								    </li>
 							</ul>
 							</div>
 						</div>

@@ -41,6 +41,7 @@ function build_auth_form($auth_type = "") {
           break;
         case "sign_out":
           logout();
+          session_destroy();
           return "Logout avvenuto.";
           break;
         case "recovery":

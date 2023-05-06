@@ -3,6 +3,21 @@ session_start();
 require('database/DBManager.php');
 require('auth/check_session.php');
 
+function get_label($order_status = "") {
+	switch(strtolower($order_status)) {
+		case "processing":
+			return "label-primary";
+		case "completed":
+			return "label-success";
+		case "cancelled":
+			return "label-danger";
+		case "on_hold":
+			return "label-info";
+		case "pending":
+			return "label-warning";
+		default: return "label-primary";
+	}
+}
 
 ?>
 
@@ -55,6 +70,28 @@ require('auth/check_session.php');
 
 require('common/header.php');
 
+$details_query_result = DBManager::getInstance()->Select("SELECT * FROM users WHERE id=?", ["i", (int)$_SESSION["user_id"]]);
+$name = "-"; $lastname = "-"; $email = "-"; $phone = "-"; $address = "-,-,-"; $birth_date = "-"; $image_url = "https://mirko.lol/images/users/blank.jpg";
+foreach($details_query_result as $row) {
+	$name = $row["name"]; $lastname = $row["lastname"]; $email = $row["email"]; $phone = $row["phone"];
+	$address = $row["address"] . ", " . $row["city"] . " (" . $row["province"] . "), " . $row["postal_code"] . ", " . $row["country"];
+	$birth_date = $row["birth_date"];
+	$image_url = $row["profile_picture"];
+}
+$orders_html = "";
+$orders_query_result = DBManager::getInstance()->Select("SELECT *, o.status as order_status FROM orders as o JOIN payments as p WHERE o.user_id=? AND o.payment_id=p.id", ["i", (int)$_SESSION["user_id"]]);
+
+foreach($orders_query_result as $row) {
+	$orders_html .= '<tr>
+	<td>'.$row["id"].'</td>
+	<td>'.$row["creation_date"].'</td>
+	<td>'.$row["amount"].'</td>
+	<td><span class="label '.get_label($row["order_status"]).'">'.$row["order_status"].'</span></td>
+	<td><a href="order.html" class="btn btn-default">View</a></td>
+</tr>';
+}
+
+
 ?>
 <section class="page-header">
 	<div class="container">
@@ -74,16 +111,17 @@ require('common/header.php');
         <div class="dashboard-wrapper dashboard-user-profile">
           <div class="media">
             <div class="pull-left text-center" href="#!">
-              <img class="media-object user-img" src="images/avater.jpg" alt="Image">
-              <a href="#x" class="btn btn-transparent mt-20">Change Image</a>
+              <img class="media-object user-img" src="<?php echo $image_url ?>" alt="Image">
+              <a href="#x" class="btn btn-transparent mt-20">Cambia immagine</a>
             </div>
             <div class="media-body">
               <ul class="user-profile-list">
-                <li><span>Full Name:</span>Johanna Doe</li>
-                <li><span>Country:</span>USA</li>
-                <li><span>Email:</span>mail@gmail.com</li>
-                <li><span>Phone:</span>+880123123</li>
-                <li><span>Date of Birth:</span>Dec , 22 ,1991</li>
+                <li><span>Nome:</span><?php echo $name ?></li>
+                <li><span>Cognome:</span><?php echo $lastname ?></li>
+                <li><span>Data di nascita:</span><?php echo $birth_date ?></li>
+                <li><span>Indirizzo di casa</span><?php echo $address ?></li>
+                <li><span>Indirizzo email:</span><?php echo $email ?></li>
+                <li><span>Numero di telefono:</span><?php echo $phone ?></li>
               </ul>
             </div>
           </div>
@@ -95,53 +133,13 @@ require('common/header.php');
 								<tr>
 									<th>Order ID</th>
 									<th>Date</th>
-									<th>Items</th>
 									<th>Total Price</th>
 									<th>Status</th>
 									<th></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>#451231</td>
-									<td>Mar 25, 2016</td>
-									<td>2</td>
-									<td>$99.00</td>
-									<td><span class="label label-primary">Processing</span></td>
-									<td><a href="order.html" class="btn btn-default">View</a></td>
-								</tr>
-								<tr>
-									<td>#451231</td>
-									<td>Mar 25, 2016</td>
-									<td>3</td>
-									<td>$150.00</td>
-									<td><span class="label label-success">Completed</span></td>
-									<td><a href="order.html" class="btn btn-default">View</a></td>
-								</tr>
-								<tr>
-									<td>#451231</td>
-									<td>Mar 25, 2016</td>
-									<td>3</td>
-									<td>$150.00</td>
-									<td><span class="label label-danger">Canceled</span></td>
-									<td><a href="order.html" class="btn btn-default">View</a></td>
-								</tr>
-								<tr>
-									<td>#451231</td>
-									<td>Mar 25, 2016</td>
-									<td>2</td>
-									<td>$99.00</td>
-									<td><span class="label label-info">On Hold</span></td>
-									<td><a href="order.html" class="btn btn-default">View</a></td>
-								</tr>
-								<tr>
-									<td>#451231</td>
-									<td>Mar 25, 2016</td>
-									<td>3</td>
-									<td>$150.00</td>
-									<td><span class="label label-warning">Pending</span></td>
-									<td><a href="order.html" class="btn btn-default">View</a></td>
-								</tr>
+								<?php echo $orders_html ?>
 							</tbody>
 						</table>
 					</div>

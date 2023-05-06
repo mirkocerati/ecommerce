@@ -1,5 +1,6 @@
 <?php session_start();
 require('../database/DBManager.php');
+$_SESSION["auth_fallback"] = "https://mirko.lol/wishlist";
 require('../auth/check_session.php');
 
 ?>

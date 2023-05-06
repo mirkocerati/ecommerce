@@ -67,6 +67,7 @@ class DBManager
         try {
 
             $stmt = $this->executeStatement($query, $params);
+            echo $stmt->get_result();
             $stmt->close();
 
             return $this->_connection->insert_id;

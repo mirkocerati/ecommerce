@@ -16,8 +16,9 @@ if (count($query_result) > 0) {
     }
 
     if(isset($_SESSION["auth_fallback"])) {
-        header("location: " . $_SESSION["auth_fallback"]);
+        $url = $_SESSION["auth_fallback"];
         unset($_SESSION["auth_fallback"]);
+        header("location: " . $url);
     } else {
         header("location: https://mirko.lol/");
     }

@@ -6,33 +6,39 @@ function build_dropdown_single_product($id, $name, $price, $amount, $image_url) 
 			<img class="media-object" src="'.$image_url.'" alt="image" />
 		</a>
 		<div class="media-body">
-			<h4 class="media-heading"><a href="#!">'.$name.'</a></h4>
+			<h4 class="media-heading"><a href="product.php?id='.$id.'">'.$name.'</a></h4>
 			<div class="cart-price">
 				<span>x'.$amount.'</span>
 				<span>€ '.$price.'</span>
 			</div>
 			<h5><strong>€ '.(string)($price * $amount) .'</strong></h5>
 		</div>
-		<a href="#!" class="remove"><i class="tf-ion-close"></i></a>
+		<a href="https://mirko.lol/cart/remove.php?id='.$id.'" class="remove"><i class="tf-ion-close"></i></a>
 	</div><!-- / Cart Item -->
 	<!-- Cart Item -->';
 }
 
 function build_dropdown_cart() {
 	//unset($_COOKIE["cart"]);
-	setcookie("cart", "1", time()+86400);
+	//setcookie("cart", "1", time()+86400);
 	$cart_items = "";
 	$total = 0;
 
 	if(isset($_COOKIE["cart"])) {
 	$cart_id = (int)$_COOKIE["cart"];
-	$cart_query_result = DBManager::getInstance()->Select("SELECT p.id, p.name, p.price, cp.amount, pi.image_url FROM ((carts as c JOIN cart_products as cp) JOIN products as p) JOIN product_images as pi WHERE c.id=? AND c.id=cp.cart_id AND cp.product_id=p.id AND pi.product_id=cp.product_id;", ["i", $cart_id]);
+	$cart_query_result = DBManager::getInstance()->Select("SELECT p.id, p.name, p.price, cp.amount FROM ((carts as c JOIN cart_products as cp) JOIN products as p) WHERE c.id=? AND c.id=cp.cart_id AND cp.product_id=p.id;", ["i", $cart_id]);
+	
 	
 	foreach($cart_query_result as $cart_row) {
+		$imgquery = DBManager::getInstance()->Select("SELECT image_url FROM product_images where product_id=? LIMIT 1", ["i", $cart_row["id"]]);
+		$image_url = "https://mirko.lol/images/products/not_found.jpg";
+		foreach($imgquery as $imgrow) {
+			$image_url = $imgrow["image_url"];
+		}
 		$price = $cart_row["price"];
 		$amount = $cart_row["amount"];
 		$total += $price * $amount;
-		$cart_items .= build_dropdown_single_product($cart_row["id"], $cart_row["name"], $price, $amount, $cart_row["image_url"]);
+		$cart_items .= build_dropdown_single_product($cart_row["id"], $cart_row["name"], $price, $amount, $image_url);
 	}
 }
 
@@ -172,22 +178,21 @@ echo '<section class="top-header">
 		<div class="row">
 			<div class="col-md-4 col-xs-12 col-sm-4">
 				<div class="contact-number">
-					<i class="tf-ion-ios-telephone"></i>
-					<span>+39 333 5812395</span>
+					<li class="li"><a style="background-color: #4db051" href="https://mirko.lol/contact.php" class="btn btn-main btn-small btn-round-full">Serve aiuto? Contattaci!</a></li>
 				</div>
 			</div>
 			<div class="col-md-4 col-xs-12 col-sm-4">
 				<!-- Site Logo -->
 				<div class="logo text-center">
-					<a href="index.php">
+					<a href="https://mirko.lol/">
 						<!-- replace logo here -->
-						<svg width="135px" height="29px" viewBox="0 0 155 29" version="1.1" xmlns="http://www.w3.org/2000/svg"
+						<svg width="145px" height="29px" viewBox="0 0 155 45" version="1.1" xmlns="http://www.w3.org/2000/svg"
 							xmlns:xlink="http://www.w3.org/1999/xlink">
-							<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-size="40"
+							<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-size="50"
 								font-family="AustinBold, Austin" font-weight="bold">
 								<g id="Group" transform="translate(-108.000000, -297.000000)" fill="#000000">
 									<text id="AVIATO">
-										<tspan x="108.94" y="325">AVIATO</tspan>
+										<tspan x="108.94" y="340">AVIATO</tspan>
 									</text>
 								</g>
 							</g>
@@ -198,7 +203,7 @@ echo '<section class="top-header">
 			<div class="col-md-4 col-xs-12 col-sm-4">
 				<!-- Cart -->
 				<ul class="top-menu text-right list-inline">
-					<li class="dropdown cart-nav dropdown-slide">
+					<li class="dropdown cart-nav dropdown-slide height=45">
 						<a href="cart.php" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i
 								class="tf-ion-android-cart"></i>Carrello</a>
 						<div class="dropdown-menu cart-dropdown">

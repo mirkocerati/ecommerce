@@ -26,16 +26,16 @@
 				</ul>
 				<ul class="footer-menu text-uppercase">
 					<li>
-						<a href="contact.html">Informazioni legali</a>
+						<a href="faq.php">Informazioni legali</a>
 					</li>
 					<li>
-						<a href="shop.html">Termini e condizioni</a>
+						<a href="faq.php">Termini e condizioni</a>
 					</li>
 					<li>
-						<a href="contact.html">Privacy</a>
+						<a href="faq.php">Privacy</a>
 					</li>
 					<li>
-						<a href="pricing.html">Spedizione, restituzioni e rimborsi</a>
+						<a href="faq.php">Spedizione, restituzioni e rimborsi</a>
 					</li>
 					<li>
 						<a href="contact.php">Contattaci</a>
