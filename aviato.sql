@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 17, 2023 at 01:26 PM
--- Server version: 10.5.18-MariaDB-0+deb11u1
+-- Generation Time: May 12, 2023 at 10:47 AM
+-- Server version: 10.5.19-MariaDB-0+deb11u2
 -- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -45,8 +45,8 @@ CREATE TABLE `boards` (
 --
 
 INSERT INTO `boards` (`id`, `name`, `description`, `title`, `subtitle`, `url`, `url_title`, `image_url`, `creation_date`, `enabled`) VALUES
-(1, 'Unknown board', 'A description for this board has not been set.', 'vediamo se funziona', 'questa board funziona per miracolo', 'https://www.ismonnet.edu.it/', 'sono bello', 'https://mirko.lol/images/slider/slid1er-1.jpg', '2023-04-14 10:24:06', 1),
-(2, 'Unknown board', 'A description for this board has not been set.', 'nuovi arrivi', 'le ultime tendenza solo da noi!', 'https//mirko.lol/products.php?latest=true', 'scopri di più', 'https://mirko.lol/images/slider/slider-2.jpg', '2023-04-14 12:38:58', 1);
+(3, 'Unknown board', 'A description for this board has not been set.', 'ciaone', 'Cool board', 'https://ismonnet.edu.it/', 'Click me!', '', '2023-04-18 08:29:10', 0),
+(4, 'bla bla', 'A description for this board has not been set.', 'S/S 2023', 'Nuovi arrivi', 'https://mirko.lol/products.php', 'Scopri di più', 'https://mirko.lol/images/slider/arredamento-negozio-abbigliamento.jpg', '2023-05-08 08:49:15', 1);
 
 -- --------------------------------------------------------
 
@@ -66,7 +66,29 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `creation_date`, `user_id`, `active`) VALUES
-(1, '2023-04-17 12:12:46', 1, 1);
+(3, '2023-05-07 17:05:03', NULL, 1),
+(4, '2023-05-07 17:07:01', NULL, 1),
+(5, '2023-05-09 08:44:05', NULL, 1),
+(6, '2023-05-09 08:53:01', NULL, 1),
+(7, '2023-05-09 08:53:58', NULL, 1),
+(8, '2023-05-09 08:57:33', NULL, 1),
+(9, '2023-05-09 08:58:54', NULL, 1),
+(10, '2023-05-09 08:59:09', NULL, 1),
+(11, '2023-05-09 08:59:10', NULL, 1),
+(12, '2023-05-09 08:59:10', NULL, 1),
+(13, '2023-05-09 09:23:01', NULL, 1),
+(14, '2023-05-09 09:23:03', NULL, 1),
+(15, '2023-05-09 09:24:46', NULL, 1),
+(16, '2023-05-09 09:24:47', NULL, 1),
+(17, '2023-05-09 09:24:47', NULL, 1),
+(18, '2023-05-09 09:29:37', NULL, 1),
+(19, '2023-05-09 14:41:54', NULL, 1),
+(20, '2023-05-10 15:40:29', NULL, 1),
+(21, '2023-05-11 06:09:21', NULL, 1),
+(22, '2023-05-11 06:09:57', 1, 1),
+(23, '2023-05-12 09:09:28', NULL, 1),
+(24, '2023-05-12 09:09:28', NULL, 1),
+(25, '2023-05-12 09:25:15', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -85,7 +107,14 @@ CREATE TABLE `cart_products` (
 --
 
 INSERT INTO `cart_products` (`cart_id`, `product_id`, `amount`) VALUES
-(1, 4, 3);
+(3, 4, 2),
+(4, 3, 25),
+(4, 4, 2),
+(5, 5, 7),
+(7, 5, 9),
+(20, 5, 1),
+(22, 4, 1),
+(25, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -1004,6 +1033,59 @@ INSERT INTO `colors` (`name`, `display_name`, `hex`, `red`, `green`, `blue`) VAL
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `contact_requests`
+--
+
+CREATE TABLE `contact_requests` (
+  `name` text NOT NULL,
+  `email` text NOT NULL,
+  `subject` text NOT NULL,
+  `message` text NOT NULL,
+  `time` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `contact_requests`
+--
+
+INSERT INTO `contact_requests` (`name`, `email`, `subject`, `message`, `time`) VALUES
+('sample name', 'sample email', 'sample sub', 'sample mess', '2023-05-01 09:34:17'),
+('MIRKONE', 'sgdfgdf@ciaone.it', 'asgdsg', '4regadxf', '2023-05-01 09:39:12'),
+('sghsdfg', 'ciao@it.com', 'sdfsg', '3wredaf', '2023-05-01 09:40:37'),
+('CAZZO', 'sdfgdf@ciaone.it', 'aerfvd', 'adfg', '2023-05-01 09:44:53'),
+('sfgadfg', 'diocane@com.it', 'sdgndo', 'skfgndkf', '2023-05-01 09:46:17'),
+('ciao', 'sdfasdf@asdf.com', 'VAFFANCULO', 'cizoifmodm', '2023-05-05 06:31:00'),
+('ciao', 'sdfasdf@asdf.com', 'VAFFANCULO', 'cizoifmodm', '2023-05-05 06:31:03'),
+('Rita de crescenzo ', 'valentinatrezzi03@gmail.com', 'Informazione ', 'siamo di napoli volevamo sapere se potevamo mettere le bocchine sul suo negozio grazie \r\nfirmato rita', '2023-05-07 12:27:07'),
+('la queen', 'giuliatr79@gmail.com', 'richiesta urgente', 'ASPETTO IL MIO TIRAMISÙ,DESIDERO IL KINGS TIRAMISU', '2023-05-07 17:05:50');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `newsletter`
+--
+
+CREATE TABLE `newsletter` (
+  `email` varchar(128) NOT NULL,
+  `date_subscribed` timestamp NOT NULL DEFAULT current_timestamp(),
+  `active` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `newsletter`
+--
+
+INSERT INTO `newsletter` (`email`, `date_subscribed`, `active`) VALUES
+('?', '2023-05-11 09:33:52', 0),
+('diocane_ciao@it.com', '2023-05-11 09:40:05', 0),
+('hello@mirko.com', '2023-05-11 09:44:10', 1),
+('kdfmgdkfg@cacca.com', '2023-05-11 09:50:07', 1),
+('', '2023-05-11 10:03:05', 1),
+('sdfgdsf@com.it', '2023-05-12 07:18:33', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `orders`
 --
 
@@ -1013,15 +1095,8 @@ CREATE TABLE `orders` (
   `cart_id` int(11) NOT NULL,
   `payment_id` int(11) NOT NULL,
   `creation_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `status` enum('SENT','CONFIRMED','SHIPPED','COMPLETED','CANCELLED','OTHER') NOT NULL DEFAULT 'SENT'
+  `status` enum('PENDING','ON_HOLD','PROCESSING','CANCELLED','COMPLETED') NOT NULL DEFAULT 'PENDING'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`id`, `user_id`, `cart_id`, `payment_id`, `creation_date`, `status`) VALUES
-(1, 1, 1, 1, '2023-04-17 12:13:39', 'COMPLETED');
 
 -- --------------------------------------------------------
 
@@ -1054,23 +1129,70 @@ CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `name` varchar(256) NOT NULL DEFAULT 'Unknown product',
   `description` text NOT NULL DEFAULT '\'\\\'A description for this category has not been set.\\\'\'',
+  `details` text NOT NULL DEFAULT 'very good very nice',
   `price` float NOT NULL DEFAULT 99999,
   `category` int(11) NOT NULL DEFAULT 1,
   `gender` enum('MAN','WOMAN','UNISEX') NOT NULL DEFAULT 'UNISEX',
   `age` enum('ADULT','CHILD') NOT NULL DEFAULT 'ADULT',
   `upload_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `hidden` tinyint(1) NOT NULL DEFAULT 1,
-  `stock_amount` int(11) NOT NULL DEFAULT 0
+  `stock_amount` int(11) NOT NULL DEFAULT 0,
+  `sale_percentage` float NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `description`, `price`, `category`, `gender`, `age`, `upload_date`, `hidden`, `stock_amount`) VALUES
-(2, 'Unknown product', '\'A description for this category has not been set.\'', 99999, 1, 'UNISEX', 'ADULT', '2023-04-13 07:22:03', 1, 0),
-(3, 'Prodotto a caso2', 'BELLO BELLISSIMO', 99999, 1, 'UNISEX', 'CHILD', '2023-04-14 07:02:29', 0, 0),
-(4, 'Polo oversize in maglia traforata color pietra', 'Colletto stile polo, chiusura con bottoni parziale, maniche corte, vestibilità oversize. Il modello è alto: 184 cm e indossa la taglia M.', 40.99, 1, 'MAN', 'ADULT', '2023-04-14 07:14:53', 0, 17);
+INSERT INTO `products` (`id`, `name`, `description`, `details`, `price`, `category`, `gender`, `age`, `upload_date`, `hidden`, `stock_amount`, `sale_percentage`) VALUES
+(2, 'Unknown product', '\'A description for this category has not been set.\'', 'very good very nice', 99999, 1, 'UNISEX', 'ADULT', '2023-04-13 07:22:03', 1, 0, 0),
+(3, 'Prodotto a caso2', 'BELLO BELLISSIMO', 'very good very nice', 99999, 1, 'UNISEX', 'CHILD', '2023-04-14 07:02:29', 0, 0, 0),
+(4, 'Polo oversize in maglia traforata color pietra', 'Colletto stile polo, chiusura con bottoni parziale, maniche corte, vestibilità oversize. Il modello è alto: 184 cm e indossa la taglia M.', 'Taglia M\r\nTessuto: lana cotone\r\n\r\nfaèidfgjadoèifn', 40.99, 2, 'MAN', 'ADULT', '2023-04-14 07:14:53', 0, 17, 23),
+(5, 'Levi\'s - Silvertab - Pantaloncini di jeans lavaggio blu chiaro', 'Dal 1873, anno della creazione del primo paio di blue jeans della storia, il marchio americano Levi\'s è diventato uno dei più famosi brand di denim al mondo, una vera icona... ma questo già lo sapevi. Oggi, la sua collezione si è ampliata e comprende jeans di ogni taglio e lavaggio, camicie, T-shirt e giacche. Non perderti i jeans 501 Original, per un look autenticamente americano.', 'Denim non elasticizzato: lavaggio blu chiaro\r\n\r\nTessuto principale: 100% cotone.\r\n\r\nAltezza modello: 186 cm/6\'1\"\r\nIl modello indossa: W 32\"', 65, 2, 'MAN', 'ADULT', '2023-05-09 07:48:28', 0, 20, 0),
+(6, 'Maglietta girocollo', 'Maglietta a maniche corte in cotone', 'Disponibile nei colori bianco e nero', 19.99, 2, 'UNISEX', 'ADULT', '2023-05-11 15:39:17', 0, 5, 0),
+(7, 'Jeans skinny', 'Jeans skinny in denim elasticizzato', 'Disponibile nei colori blu scuro e nero', 39.99, 2, 'UNISEX', 'ADULT', '2023-05-11 15:39:17', 0, 0, 0),
+(8, 'Sneakers in pelle', 'Sneakers in pelle bianca con dettagli in oro', 'Disponibile nelle taglie dal 35 al 45', 79.99, 4, 'UNISEX', 'ADULT', '2023-05-11 15:39:17', 0, 0, 0),
+(9, 'Orecchini pendenti', 'Orecchini con perle naturali e pietre preziose', 'Disponibile nei colori oro e argento', 59.99, 9, 'WOMAN', 'ADULT', '2023-05-11 15:39:17', 0, 0, 0),
+(10, 'Felpa con cappuccio', 'Felpa con cappuccio e logo stampato', 'Disponibile nei colori grigio e nero', 29.99, 2, 'UNISEX', 'ADULT', '2023-05-11 15:39:17', 0, 0, 0),
+(11, 'Borsa a mano', 'Borsa a mano in pelle nera', 'Dotata di tracolla removibile', 99.99, 3, 'WOMAN', 'ADULT', '2023-05-11 15:39:17', 0, 0, 0),
+(12, 'Anello in argento', 'Anello con pietra incastonata in argento sterling', 'Disponibile nelle taglie dal 16 al 20', 49.99, 9, 'WOMAN', 'ADULT', '2023-05-11 15:39:17', 0, 0, 0),
+(13, 'Scarpe da ginnastica', 'Scarpe da ginnastica con suola in gomma', 'Disponibile nelle taglie dal 35 al 45', 49.99, 8, 'UNISEX', 'ADULT', '2023-05-11 15:39:17', 0, 0, 0),
+(14, 'Tuta da jogging', 'Tuta da jogging in pile', 'Disponibile nei colori grigio e nero', 69.99, 2, 'UNISEX', 'ADULT', '2023-05-11 15:39:17', 0, 0, 0),
+(15, 'Camicia in lino', 'Camicia in lino a maniche corte', 'Disponibile nei colori bianco e beige', 39.99, 2, 'UNISEX', 'ADULT', '2023-05-11 15:39:17', 0, 0, 0),
+(16, 'Maglione a collo alto', 'Maglione a collo alto in lana merino', 'Disponibile nei colori grigio e blu', 59.99, 2, 'UNISEX', 'ADULT', '2023-05-11 15:39:17', 0, 0, 0),
+(17, 'Scarpe stringate in pelle', 'Scarpe stringate in pelle nera', 'Disponibile nelle taglie dal 35 al 45', 89.99, 4, 'UNISEX', 'ADULT', '2023-05-11 15:39:17', 0, 0, 0),
+(18, 'Collana con pendente', 'Collana con pendente in argento sterling', 'Disponibile nei colori oro e argento', 39.99, 9, 'WOMAN', 'ADULT', '2023-05-11 15:39:17', 0, 0, 0),
+(19, 'Giacca in pelle', 'Giacca in pelle nera', 'Dotata di tasche e cerniere', 199.99, 2, 'UNISEX', 'ADULT', '2023-05-11 15:40:01', 0, 0, 0),
+(20, 'Pantaloni cargo', 'Pantaloni cargo in cotone', 'Disponibile nei colori verde e beige', 49.99, 2, 'UNISEX', 'ADULT', '2023-05-11 15:40:01', 0, 0, 0),
+(21, 'Scarpe da running', 'Scarpe da running con tecnologia Flyknit', 'Disponibile nelle taglie dal 35 al 45', 129.99, 8, 'UNISEX', 'ADULT', '2023-05-11 15:40:01', 0, 0, 0),
+(22, 'Borsa a tracolla', 'Borsa a tracolla in pelle', 'Disponibile nei colori marrone e nero', 79.99, 3, 'WOMAN', 'ADULT', '2023-05-11 15:40:01', 0, 0, 0),
+(23, 'Gonna in pelle', 'Gonna in pelle nera', 'Disponibile nelle taglie dal 36 al 44', 69.99, 2, 'WOMAN', 'ADULT', '2023-05-11 15:40:01', 0, 0, 0),
+(24, 'Cuffie wireless', 'Cuffie wireless con cancellazione del rumore', 'Disponibile nei colori nero e bianco', 149.99, 7, 'UNISEX', 'ADULT', '2023-05-11 15:40:01', 0, 0, 0),
+(25, 'Vestito a trapezio', 'Vestito a trapezio in cotone', 'Disponibile nei colori bianco e nero', 89.99, 2, 'WOMAN', 'ADULT', '2023-05-11 15:40:01', 0, 0, 0),
+(26, 'Orologio da polso', 'Orologio da polso con quadrante in madreperla', 'Disponibile nei colori oro e argento', 199.99, 9, 'WOMAN', 'ADULT', '2023-05-11 15:40:01', 0, 0, 0),
+(27, 'Polo a righe', 'Polo a righe in cotone', 'Disponibile nei colori blu e bianco', 29.99, 2, 'MAN', 'ADULT', '2023-05-11 15:40:01', 0, 0, 0),
+(28, 'Pantaloncini da beach volley', 'Pantaloncini da beach volley in tessuto tecnico', 'Disponibile nei colori rosso e blu', 24.99, 8, 'MAN', 'ADULT', '2023-05-11 15:40:01', 0, 0, 0),
+(29, 'Sandali infradito', 'Sandali infradito in pelle', 'Disponibile nelle taglie dal 35 al 45', 49.99, 4, 'UNISEX', 'ADULT', '2023-05-11 15:40:01', 0, 0, 0),
+(30, 'Maglia a righe', 'Maglia in cotone con righe bianche e nere, taglio aderente', 'Composizione: 100% cotone. Lavabile in lavatrice a 30°C', 25.99, 2, 'UNISEX', 'ADULT', '2023-05-11 15:44:07', 0, 0, 0),
+(31, 'Jeans skinny', 'Jeans aderenti in denim stretch, lavaggio medio scuro', 'Composizione: 98% cotone, 2% elastan. Lavabile in lavatrice a 30°C', 49.99, 2, 'UNISEX', 'ADULT', '2023-05-11 15:44:07', 0, 0, 0),
+(32, 'Borsa a tracolla in pelle', 'Borsa in pelle con tracolla regolabile e tasca frontale con zip', 'Composizione: pelle. Dimensioni: 25 x 18 x 7 cm', 149.99, 3, 'WOMAN', 'ADULT', '2023-05-11 15:44:07', 0, 0, 0),
+(33, 'Sneakers in pelle bianca', 'Sneakers in pelle bianca con suola in gomma, chiusura con lacci', 'Composizione: pelle, suola in gomma. Disponibili anche in altri colori', 89.99, 4, 'UNISEX', 'ADULT', '2023-05-11 15:44:07', 0, 0, 0),
+(34, 'Orecchini a cerchio', 'Orecchini a cerchio in argento con finitura opaca', 'Composizione: argento 925. Diametro: 3 cm', 29.99, 9, 'WOMAN', 'ADULT', '2023-05-11 15:44:07', 0, 0, 0),
+(35, 'Orologio da polso in acciaio', 'Orologio da polso con cassa in acciaio e cinturino in pelle marrone', 'Movimento al quarzo giapponese. Impermeabilità: 5 atm. Garanzia: 2 anni', 129.99, 9, 'UNISEX', 'ADULT', '2023-05-11 15:44:07', 0, 0, 0),
+(36, 'T-shirt in cotone stampata', 'T-shirt in cotone bianca con stampa di un gatto', 'Composizione: 100% cotone. Lavabile in lavatrice a 30°C', 19.99, 2, 'UNISEX', 'ADULT', '2023-05-11 15:44:07', 0, 0, 0),
+(37, 'Pantaloni a palazzo', 'Pantaloni a palazzo in tessuto leggero a fantasia', 'Composizione: 100% poliestere. Lavabile in lavatrice a 30°C', 39.99, 2, 'WOMAN', 'ADULT', '2023-05-11 15:44:07', 0, 0, 0),
+(38, 'Foulard in seta', 'Foulard in seta con stampa floreale su sfondo bianco', 'Composizione: 100% seta. Dimensioni: 70 x 70 cm', 69.99, 7, 'WOMAN', 'ADULT', '2023-05-11 15:44:07', 0, 0, 0),
+(39, 'Borsa shopper in tessuto', 'Borsa shopper in tessuto con stampa a righe e manici in pelle', 'Composizione: tessuto e pelle. Dimensioni: 40 x 35 x 10 cm', 79.99, 3, 'WOMAN', 'ADULT', '2023-05-11 15:44:07', 0, 0, 0),
+(40, 'Crema viso idratante', 'Crema viso idratante per pelli secche, arricchita con olio di mandorle e vitamina E', 'Composizione: acqua, olio di mandorle, vitamina E. Formato: 50 ml', 19.99, 10, 'WOMAN', 'ADULT', '2023-05-11 15:50:01', 0, 0, 0),
+(41, 'Shampoo antiforfora', 'Shampoo antiforfora con estratto di ortica e mentolo', 'Composizione: acqua, estratto di ortica, mentolo. Formato: 250 ml', 8.99, 10, 'UNISEX', 'ADULT', '2023-05-11 15:50:01', 0, 0, 0),
+(42, 'Balsamo per capelli secchi', 'Balsamo per capelli secchi e danneggiati con olio di argan e cheratina', 'Composizione: acqua, olio di argan, cheratina. Formato: 200 ml', 14.99, 10, 'UNISEX', 'ADULT', '2023-05-11 15:50:01', 0, 0, 0),
+(43, 'Detergente intimo', 'Detergente intimo delicato con acido lattico e camomilla', 'Composizione: acqua, acido lattico, camomilla. Formato: 200 ml', 6.99, 11, 'WOMAN', 'ADULT', '2023-05-11 15:50:01', 0, 25, 0),
+(44, 'Reggiseno imbottito', 'Reggiseno push-up imbottito in pizzo con ferretto', 'Composizione: poliammide, elastan. Taglie disponibili: dalla 2 alla 5', 24.99, 11, 'WOMAN', 'ADULT', '2023-05-11 15:50:01', 0, 0, 0),
+(45, 'Boxer in cotone', 'Boxer in cotone elasticizzato con elastico in vita logato', 'Composizione: cotone, elastan. Taglie disponibili: dalla S alla XL', 9.99, 11, 'MAN', 'ADULT', '2023-05-11 15:50:01', 0, 0, 0),
+(46, 'Cuffia per la doccia', 'Cuffia per la doccia in tessuto impermeabile con fantasia floreale', 'Composizione: tessuto impermeabile. Taglia unica', 3.99, 10, 'WOMAN', 'ADULT', '2023-05-11 15:50:01', 0, 0, 0),
+(47, 'Gel igienizzante mani', 'Gel igienizzante mani con alcool al 70%', 'Composizione: alcool etilico 70%, glicerina, acqua. Formato: 100 ml', 2.99, 10, 'UNISEX', 'ADULT', '2023-05-11 15:50:01', 0, 0, 0),
+(48, 'Lozione corpo idratante', 'Lozione corpo idratante con burro di karité e olio di cocco', 'Composizione: acqua, burro di karité, olio di cocco. Formato: 250 ml', 12.99, 10, 'WOMAN', 'ADULT', '2023-05-11 15:50:01', 0, 0, 0),
+(49, 'Deodorante roll-on', 'Deodorante roll-on senza alluminio con olio essenziale di tea tree e lavanda', 'Composizione: acqua, olio essenziale di tea tree, lavanda. Formato: 50 ml', 7.99, 10, 'UNISEX', 'ADULT', '2023-05-11 15:50:01', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1091,15 +1213,51 @@ CREATE TABLE `product_colors` (
 
 CREATE TABLE `product_images` (
   `product_id` int(11) NOT NULL,
-  `image_url` varchar(255) NOT NULL
+  `image_url` varchar(255) NOT NULL,
+  `cover` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product_images`
 --
 
-INSERT INTO `product_images` (`product_id`, `image_url`) VALUES
-(4, 'https://mirko.lol/images/products/3-1.jpg');
+INSERT INTO `product_images` (`product_id`, `image_url`, `cover`) VALUES
+(4, 'https://mirko.lol/images/products/4-1.jpg', 1),
+(4, 'https://mirko.lol/images/products/pngwing.com.png', 0),
+(5, 'https://mirko.lol/images/products/5-1.jpg', 1),
+(5, 'https://mirko.lol/images/products/5-2.jpg', 0),
+(5, 'https://mirko.lol/images/products/5-3.jpg', 0),
+(5, 'https://mirko.lol/images/products/5-4.jpg', 0),
+(6, 'https://mirko.lol/images/products/6-1.jpg', 1),
+(8, 'https://mirko.lol/images/products/8-1.jpg', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reviews`
+--
+
+CREATE TABLE `reviews` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `stars` int(11) NOT NULL DEFAULT 5,
+  `subject` text NOT NULL,
+  `text` text NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `hidden` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `user_id`, `product_id`, `stars`, `subject`, `text`, `date`, `hidden`) VALUES
+(1, 1, 4, 4, '', 'molto bbella grz', '2023-05-05 08:17:21', 0),
+(2, 3, 18, 3, 'wowowowo', 'devo dire molto cool', '2023-05-12 07:41:42', 0),
+(3, 1, 18, 5, 'BELLLAAAA', '232342SDFADDSFASD', '2023-05-12 07:48:38', 0),
+(4, 1, 18, 0, 'top amo', 'weuroinj', '2023-05-12 07:50:12', 0),
+(5, 1, 18, 5, 'BELLIXIMAskjdfs', 'sfondo', '2023-05-12 07:52:39', 0);
 
 -- --------------------------------------------------------
 
@@ -1111,24 +1269,48 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(24) NOT NULL,
   `password` varchar(64) NOT NULL,
+  `profile_picture` varchar(255) NOT NULL DEFAULT 'https://mirko.lol/images/users/blank.jpg',
   `name` varchar(32) NOT NULL,
   `lastname` varchar(32) NOT NULL,
+  `birth_date` date DEFAULT NULL,
   `email` varchar(48) NOT NULL,
-  `phone` int(5) NOT NULL,
-  `address` varchar(128) NOT NULL,
-  `city` varchar(32) NOT NULL,
-  `province` varchar(32) NOT NULL,
-  `postal_code` varchar(24) NOT NULL,
-  `country` varchar(32) NOT NULL,
-  `administrator` tinyint(1) NOT NULL DEFAULT 0
+  `phone` int(5) DEFAULT NULL,
+  `address` varchar(128) DEFAULT NULL,
+  `city` varchar(32) DEFAULT NULL,
+  `province` varchar(32) DEFAULT NULL,
+  `postal_code` varchar(24) DEFAULT NULL,
+  `country` varchar(32) DEFAULT NULL,
+  `administrator` tinyint(1) NOT NULL DEFAULT 0,
+  `enabled` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `name`, `lastname`, `email`, `phone`, `address`, `city`, `province`, `postal_code`, `country`, `administrator`) VALUES
-(1, 'mirkocerati', '7d8839acfcfa186ffba7ab535b65a3ab', 'Mirko', 'Cerati', 'mirkocerati123@gmail.com', 12345, 'Via Leopardi 5/A', 'Merone', 'Como', '22046', 'Italy', 0);
+INSERT INTO `users` (`id`, `username`, `password`, `profile_picture`, `name`, `lastname`, `birth_date`, `email`, `phone`, `address`, `city`, `province`, `postal_code`, `country`, `administrator`, `enabled`) VALUES
+(1, 'mirkocerati', '21232f297a57a5a743894a0e4a801fc3', 'https://mirko.lol/images/users/blank.jpg', 'Mirko', 'Cerati', '0000-00-00', 'mirkocerati123@gmail.com', 12345, 'Via Leopardi 5/A', 'Merone', 'Como', '22046', 'Italy', 0, 1),
+(2, 'username', 'hiddenpass', 'https://mirko.lol/images/users/blank.jpg', 'name', 'lastname', NULL, 'email', NULL, NULL, NULL, NULL, NULL, NULL, 0, 1),
+(3, 'maury', 'c21a7f50739500292ab24dd37150fa8a', 'https://mirko.lol/images/users/blank.jpg', 'maurizio', 'costanzo', NULL, 'maur@ciao.it', NULL, NULL, NULL, NULL, NULL, NULL, 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wishlist`
+--
+
+CREATE TABLE `wishlist` (
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wishlist`
+--
+
+INSERT INTO `wishlist` (`user_id`, `product_id`, `date_added`) VALUES
+(1, 4, '2023-04-18 06:48:39');
 
 --
 -- Indexes for dumped tables
@@ -1203,10 +1385,27 @@ ALTER TABLE `product_images`
   ADD PRIMARY KEY (`product_id`,`image_url`);
 
 --
+-- Indexes for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `reviewsUserId` (`user_id`),
+  ADD KEY `reviewsProductId` (`product_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- Indexes for table `wishlist`
+--
+ALTER TABLE `wishlist`
+  ADD UNIQUE KEY `user_id` (`user_id`,`product_id`),
+  ADD KEY `wishlistProductIdKey` (`product_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1216,13 +1415,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `boards`
 --
 ALTER TABLE `boards`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -1246,13 +1445,19 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+
+--
+-- AUTO_INCREMENT for table `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -1297,6 +1502,20 @@ ALTER TABLE `product_colors`
 --
 ALTER TABLE `product_images`
   ADD CONSTRAINT `productKey` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD CONSTRAINT `reviewsProductId` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reviewsUserId` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `wishlist`
+--
+ALTER TABLE `wishlist`
+  ADD CONSTRAINT `wishlistProductIdKey` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `wishlistUserIdKey` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
