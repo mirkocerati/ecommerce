@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('database/DBManager.php');
+require('common/SQL.php');
 
 if(!isset($_GET["id"])) {
 	header("location: products.php");
@@ -9,20 +9,22 @@ if(!isset($_GET["id"])) {
 
 $id = (int)$_GET["id"];
 
-$query_result = DBManager::getInstance()->Select("SELECT * FROM products WHERE id=? AND hidden=FALSE", ["i", $id]);
+$query_result = SQL::getInstance()->Select("SELECT * FROM products WHERE id=? AND hidden=FALSE", ["i", $id]);
 
 if(count($query_result) < 1) {
 	header("location: products.php");
 	die();
 }
 
-$name; $description; $price; $image_url;
+$name; $description; $price; $image_url; $details; $category;
 
 foreach($query_result as $row) {
 	$name = $row["name"];
 	$description = $row["description"];
 	$price = $row["price"];
 	$image_url = $row["image_url"];
+	$details = $row["details"];
+	$category = $row["category"];
 }
 
 ?>
@@ -70,7 +72,12 @@ foreach($query_result as $row) {
 <body id="body">
 
 <?php 
-require_once('common/header.php'); ?>
+require_once('common/header.php'); 
+//require_once('common/alert/AlertType.php');
+require_once('common/Alerts.php'); 
+
+?>
+
 
 <section class="single-product">
 	<div class="container">
@@ -84,10 +91,43 @@ require_once('common/header.php'); ?>
 			</div>
 			<div class="col-md-6">
 				<ol class="product-pagination text-right">
-					<li><a href="add_to_wishlist.php?id=<?php echo $id; ?>"><i class="tf-ion-ios-heart"></i> <u>Aggiungi alla lista dei desideri</u></a></li>
+					<li><a href="https://mirko.lol/wishlist/add.php?id=<?php echo $id; ?>"><i class="tf-ion-ios-heart"></i> <u>Aggiungi alla lista dei desideri</u></a></li>
 				</ol>
 			</div>
 		</div>
+		<?php
+		//echo Alerts::danger("ciao");
+
+		if(isset($_GET["cart_result"])) {
+			switch(strtolower($_GET["cart_result"])) {
+				case "added":
+					echo Alerts::success("Questo prodotto è stato aggiunto correttamente al carrello!");
+					break;
+				case "failed":
+					echo Alerts::danger("Non è stato possibile aggiungere questo prodotto al carrello.");
+					break;
+			}
+		}
+
+		if(isset($_GET["review_result"])) {
+			switch(strtolower($_GET["review_result"])) {
+				case "posted":
+					echo Alerts::success("La tua recensione è stata inviata. Grazie, il tuo parere conta!");
+					break;
+				case "failed":
+					echo Alerts::danger("Si è verificato un errore per cui la tua recensione non è stata inviata. Contatta un amministratore.");
+					break;
+				case "already_reviewed":
+					echo Alerts::warning("Una tua recensione per questo prodotto è già presente!");
+					break;
+				case "not_purchased":
+					echo Alerts::info("È necessario acquistare un prodotto prima di recensirlo!");
+					break;
+			}
+		}
+
+
+		?>
 		<div class="row mt-20">
 			<div class="col-md-5">
 				<div class="single-product-slider">
@@ -97,10 +137,13 @@ require_once('common/header.php'); ?>
 							$html1 = '<div class"carousel-outer"><div class="carousel-inner">';
 							$html2 = '<ol class="carousel-indicators mCustomScrollbar meartlab">';
 
-							$images_query_result = DBManager::getInstance()->Select("SELECT image_url FROM product_images WHERE product_id=?", ["i", (int)$product_id]);
+							$images_query_result = SQL::getInstance()->Select("SELECT image_url FROM product_images WHERE product_id=?", ["i", (int)$product_id]);
 
 							if(count($images_query_result) < 1) {
-								echo "nessuna immagine"; die();
+								echo '<div class"carousel-outer"><div class="carousel-inner">
+								<div class="item active"><img src="https://mirko.lol/images/products/not_found.jpg" alt="" data-zoom-image="https://mirko.lol/images/products/not_found.jpg" /></div>
+								</div><!-- sag sol --><a class="left carousel-control" href="#carousel-custom" data-slide="prev"><i class="tf-ion-ios-arrow-left"></i></a><a class="right carousel-control" href="#carousel-custom" data-slide="next"><i class="tf-ion-ios-arrow-right"></i></a></div>
+								';
 							}
 							
 							$counter = 0;
@@ -205,9 +248,7 @@ require_once('common/header.php'); ?>
 					<div class="tab-content patternbg">
 						<div>
 							<h4>Dettagli</h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut per spici</p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis delectus quidem repudiandae veniam distinctio repellendus magni pariatur molestiae asperiores animi, eos quod iusto hic doloremque iste a, nisi iure at unde molestias enim fugit, nulla voluptatibus. Deserunt voluptate tempora aut illum harum, deleniti laborum animi neque, praesentium explicabo, debitis ipsa?</p>
-						</div>
+							<p><?php echo $details; ?></p>						</div>
 					</div>
 					<br>
 					<div class="tab-content patternbg">
@@ -216,7 +257,55 @@ require_once('common/header.php'); ?>
 						<h4>Cosa ne pensano gli altri utenti</h4>
 							<div class="post-comments">
 						    	<ul class="media-list comments-list m-bot-50 clearlist">
-								    <!-- Comment Item start-->
+
+
+									<?php
+
+									function print_reviews(int $product_id) {
+										$reviews_query = SQL::getInstance()->Select("SELECT * FROM reviews as r JOIN users as u WHERE r.product_id=? AND r.user_id=u.id AND r.hidden=FALSE;", ["i", $product_id]);
+										if(count($reviews_query) < 1) {
+											echo "Non è presente alcune recensione per questo prodotto.";
+											return;
+										}
+
+										foreach($reviews_query as $review) {
+
+											$stars = "";
+											for ($i = 0; $i<(int)$review["stars"]; $i++) {
+												$stars .= '<i class="tf-ion-ios-star"></i>';
+											}
+											echo '<li class="media">
+
+											<a class="pull-left" href="https://mirko.lol/user.php?username='.$review["username"].'">
+												<img class="media-object comment-avatar" src="'.$review["profile_picture"].'" alt="" width="50" height="50" />
+											</a>
+	
+											<div class="media-body">
+												<div class="comment-info">
+													<h4 class="comment-author">
+														<a href="https://mirko.lol/user.php?username='.$review["username"].'">'.$review["name"].' ' . $review["lastname"] . ' (@' . $review["username"] . ')</a>
+								
+													</h4>
+													<h4>'.$stars.'</h4>
+													<time datetime="2013-04-06T13:53">'.$review["date"].'</time>
+												</div>
+												<p>
+													<b>'.$review["subject"].'</b>
+												</p>
+												<p>
+													'.$review["text"].'
+												</p>
+											</div>
+	
+										</li>';
+										}
+									}
+
+									print_reviews($id);
+
+
+									?>
+								    <!-- Comment Item start
 								    <li class="media">
 
 								        <a class="pull-left" href="#!">
@@ -239,7 +328,51 @@ require_once('common/header.php'); ?>
 								        </div>
 
 								    </li>
-								    <!-- End Comment Item -->
+								    End Comment Item -->
+							</ul>
+							</div>
+						</div>
+					</div>
+					<br>
+
+					<div class="tab-content patternbg">
+						<div>
+
+						<h4>Lascia una recensione! Come trovi questo prodotto?</h4>
+							<div class="post-comments">
+						    	<ul class="media-list comments-list m-bot-50 clearlist">
+
+								<form action="https://mirko.lol/common/post_review.php" method="post">
+									<input type="hidden" name="product_id" value="<?php echo $id; ?>" />
+								<label for="stars">Quante stelle merita questo prodotto?</label>
+
+								
+
+								<select type="select" name="stars" id="stars">
+  									<option value="5">5</option>
+  									<option value="4">4</option>
+  									<option value="3">3</option>
+  									<option value="2">2</option>
+  									<option value="1">1</option>
+								</select>
+								<div class="form-group">
+              						<input type="text" class="form-control" name="subject" placeholder="Oggetto">
+            					</div>
+            					<div class="form-group">
+              						<input type="text" class="form-control" name="text" placeholder="Approfondisci...">
+            					</div>
+            					<div class="text-center">
+              						<button type="submit" class="btn btn-main text-center">Invia recensione</button>
+           						 </div>
+								</form>
+
+
+									<?php
+
+									
+
+
+									?>
 							</ul>
 							</div>
 						</div>
@@ -253,10 +386,30 @@ require_once('common/header.php'); ?>
 	<div class="container">
 		<div class="row">
 			<div class="title text-center">
-				<h2>Related Products</h2>
+				<h2>Ti potrebbe interessare anche...</h2>
 			</div>
 		</div>
 		<div class="row">
+
+			<?php
+
+			require('common/product-button-creator.php');
+			require('common/product-image-query.php');
+			function print_related(int $category_id) {
+				$related_query = SQL::getInstance()->Select("SELECT * FROM products WHERE category=? ORDER BY rand() LIMIT 3", ["i", $category_id]);
+
+				
+
+				foreach($related_query as $related) {
+					$image_url = get_product_image($related["id"]);
+					print_product($related["id"], $related["name"], $related["description"], $related["price"], $related["category"], $related["gender"], $related["age"], $related["time_published"], $related["stock_amount"], $image_url, $related["sale_percentage"]);
+				}
+			}
+			print_related($category);
+			?>
+
+
+			<!--
 			<div class="col-md-3">
 				<div class="product-item">
 					<div class="product-thumb">
@@ -361,7 +514,7 @@ require_once('common/header.php'); ?>
 						<p class="price">$200</p>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			
 		</div>
 	</div>
@@ -369,36 +522,6 @@ require_once('common/header.php'); ?>
 
 
 
-<!-- Modal -->
-<div class="modal product-modal fade" id="product-modal">
-	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		<i class="tf-ion-close"></i>
-	</button>
-  	<div class="modal-dialog " role="document">
-    	<div class="modal-content">
-	      	<div class="modal-body">
-	        	<div class="row">
-	        		<div class="col-md-8">
-	        			<div class="modal-image">
-		        			<img class="img-responsive" src="images/shop/products/modal-product.jpg" />
-	        			</div>
-	        		</div>
-	        		<div class="col-md-3">
-	        			<div class="product-short-details">
-	        				<h2 class="product-title">GM Pendant, Basalt Grey</h2>
-	        				<p class="product-price">$200</p>
-	        				<p class="product-short-description">
-	        					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem iusto nihil cum. Illo laborum numquam rem aut officia dicta cumque.
-	        				</p>
-	        				<a href="#!" class="btn btn-main">Add To Cart</a>
-	        				<a href="#!" class="btn btn-transparent">View Product Details</a>
-	        			</div>
-	        		</div>
-	        	</div>
-	        </div>
-    	</div>
-  	</div>
-</div>
 
 <?php
 require('common/newsletter-footer.php');

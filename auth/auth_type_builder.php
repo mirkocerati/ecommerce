@@ -12,27 +12,31 @@ function build_auth_form($auth_type = "") {
             <div class="col-md-6 col-md-offset-3">
               <div class="block text-center">
                 <h2 class="text-center">Crea un nuovo account</h2>
-                <form class="text-left clearfix" action="index.html">
+                <form class="text-left clearfix" action="perform/sign_up.php" method="post">
                   <div class="form-group">
-                    <input type="text" class="form-control"  placeholder="Nome">
+                    <input type="text" class="form-control" name="name" placeholder="Nome">
                   </div>
                   <div class="form-group">
-                    <input type="text" class="form-control"  placeholder="Cognome">
+                    <input type="text" class="form-control" name="lastname" placeholder="Cognome">
                   </div>
                   <div class="form-group">
-                    <input type="text" class="form-control"  placeholder="Username">
+                    <input type="text" class="form-control" name="username" placeholder="Username">
                   </div>
                   <div class="form-group">
-                    <input type="email" class="form-control"  placeholder="Email">
+                    <input type="email" class="form-control" name="email" placeholder="Email">
                   </div>
                   <div class="form-group">
-                    <input type="password" class="form-control"  placeholder="Password">
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                  </div>
+
+                  <div class="form-group">
+                    <input type="password" class="form-control" name="password2" placeholder="Conferma password">
                   </div>
                   <div class="text-center">
                     <button type="submit" class="btn btn-main text-center">Conferma registrazione</button>
                   </div>
                 </form>
-                <p class="mt-20">Hai già un account? <a href="login.html"> Accedi.</a></p>
+                <p class="mt-20">Hai già un account? <a href="https://mirko.lol/auth?auth_type=sign_in"> Accedi.</a></p>
                 <p style="color: red" class="mt-20"><a style="color: red" href="recovery.php">Recupero account</a></p>
               </div>
             </div>
@@ -67,7 +71,7 @@ function build_auth_form($auth_type = "") {
                     <button type="submit" class="btn btn-main text-center" >Accedi</button>
                   </div>
                 </form>
-                <p class="mt-20">Nuovo utente?<a href="signup.php"> Crea un nuovo account!</a></p>
+                <p class="mt-20">Nuovo utente?<a href="https://mirko.lol/auth?auth_type=sign_up"> Crea un nuovo account!</a></p>
                 
                 <p style="color: red" class="mt-20"><a style="color: red" href="recovery.php">Recupero account</a></p>
               </div>

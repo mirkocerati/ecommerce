@@ -1,5 +1,5 @@
 <?php
-require('database/DBManager.php');
+require('common/SQL.php');
 
 ?>
 <!DOCTYPE html>

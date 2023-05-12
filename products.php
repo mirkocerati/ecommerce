@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('database/DBManager.php');
+require('common/SQL.php');
 
 ?>
 
@@ -73,14 +73,71 @@ require('database/DBManager.php');
 
 				<?php
 
-				$query_result = DBManager::getInstance()->Select("SELECT * FROM products WHERE hidden=FALSE");
+				$query_result;
+				$category = "";
+				$gender = "";
+				$age = "";
+				$sale = "";
+
+				/*if(is_int((int)$_GET["category"])) {
+					echo "int!!";
+				} else {
+					echo "not int :(";
+				}*/
+
+
+				if(isset($_GET["category"])) {
+					$category_parse = intval($_GET["category"]);
+					if(is_int($category_parse)) {
+						$category = " AND category=" . $category_parse;
+					}
+				}
+
+				if(isset($_GET["gender"])) {
+					switch(strtolower($_GET["gender"])) {
+						case "man":
+							$gender = " AND gender='MAN'";
+							break;
+						case "woman":
+							$gender = " AND gender='WOMAN'";
+							break;
+						case "unisex":
+							$gender = " AND gender='UNISEX'";
+							break;
+					}
+				}
+
+				if(isset($_GET["age"])) {
+					switch(strtolower($_GET["age"])) {
+						case "adult":
+							$age = " AND age='ADULT'";
+							break;
+						case "woman":
+							$age = " AND age='CHILD'";
+					}
+				}
+
+				if(isset($_GET["sale"]) && strtolower($_GET["sale"]) == "true") {
+					$sale = " AND sale_percentage>0";
+				}
+
+				$sql = "SELECT * FROM products WHERE hidden=0" . $category . $gender . $age . $sale;
+
+				$query_result = SQL::getInstance()->Select($sql . " ORDER BY rand();");
+
+				/*if(isset($_GET["category"])) {
+					$query_result = SQL::getInstance()->Select("SELECT * FROM products WHERE hidden=FALSE AND category=? ".$sale." order by rand();", ["i", $_GET["category"]]);
+				} else {
+					$query_result = SQL::getInstance()->Select("SELECT * FROM products WHERE hidden=FALSE".$sale." order by rand();");
+				}*/
+
 
 				require('common/product-button-creator.php');
 				require('common/product-image-query.php');
 
 				foreach($query_result as $row) {
 					$image_url = get_product_image($row["id"]);
-					print_product($row["id"], $row["name"], $row["description"], $row["price"], $row["category"], $row["gender"], $row["age"], $row["time_published"], $row["stock_amount"], $image_url);
+					print_product($row["id"], $row["name"], $row["description"], $row["price"], $row["category"], $row["gender"], $row["age"], $row["time_published"], $row["stock_amount"], $image_url, $row["sale_percentage"]);
 				}
 
 				?>

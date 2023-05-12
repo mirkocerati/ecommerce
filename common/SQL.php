@@ -7,7 +7,7 @@ function writeLog($msg)
     fclose($file);
 }
 
-class DBManager
+class SQL
 { 
     //https://gist.github.com/jonashansen229/4534794
     //https://devjunky.com/Creating-a-MySqli-Database-Class-in-PHP/

@@ -2,7 +2,8 @@
 
 session_start();
 
-require('../database/DBManager.php');
+require('../common/SQL.php');
+require('../common/cart_manager.php');
 
 
 ?>
@@ -74,90 +75,61 @@ require('../database/DBManager.php');
         <div class="col-md-8 col-md-offset-2">
           <div class="block">
             <div class="product-list">
-              <form method="post">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th class="">Articolo</th>
-                      <th class="">Prezzo</th>
-                      <th class="">Quantità</th>
-                      <th class=""></th>
-                    </tr>
-                  </thead>
-                  <tbody>
+              
 					<?php
-
-					function build_cart() {
-						if(isset($_SESSION["user_id"]))
-						$cart_id = 1;
-						$q = DBManager::getInstance()->Select("SELECT * FROM ((carts as c join cart_products as cp) join products as p) join product_images as pi where c.id=cp.cart_id and cp.product_id=p.id and c.id=? and pi.product_id=p.id AND pi.cover=TRUE AND p.hidden=FALSE and c.active=TRUE;", ["i", (int)$cart_id]);
-						$html = "";
-						foreach($q as $row) {
+					function build_cart($my_cart_id) {
+						$q2 = SQL::getInstance()->Select("SELECT * FROM ((carts as c join cart_products as cp) join products as p) join product_images as pi where c.id=cp.cart_id and cp.product_id=p.id and c.id=? and pi.product_id=p.id AND pi.cover=TRUE AND p.hidden=FALSE and c.active=TRUE;", ["i", $my_cart_id]);
+						$html = '<form method="post" action="https://mirko.lol/checkout.php"><table class="table">
+            <thead>
+              <tr>
+                <th class="">Articolo</th>
+                <th class="">Prezzo</th>
+                <th class="">Quantità</th>
+                <th class=""></th>
+              </tr>
+            </thead>
+            <tbody>';
+            if(count($q2) > 0) {
+						foreach($q2 as $row) {
 							$html .= '<tr>
 							<td>
+              
 							  <div class="product-info">
 								<img width="80" src="'.$row["image_url"].'" />
 								<a href="https://mirko.lol/product.php?id='.$row["id"].'">'.$row["name"].'</a>
 							  </div>
 							</td>
 							<td class="">€ '.$row["price"].'</td>
-							<td class="">€ '.$row["amount"].'</td>
+							<td class="">'.$row["amount"].'</td>
 							<td class="">
 							  <a class="product-remove" href="https://mirko.lol/cart/remove.php?id='.$row["id"].'">Rimuovi</a>
 							</td>
 						  </tr>';
 						}
-						echo $html;
-					}
+						echo $html . '</tbody>
+            </table>
+            <a href="https://mirko.lol/checkout.php" class="btn btn-main pull-right">Checkout</a>
+          </form>';
+					} else {
+            echo '
+            <section class="empty-cart page-wrapper">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 col-md-offset-1">
+                <div class="block text-center">
+                  <i class="tf-ion-ios-cart-outline"></i>
+                    <h2 class="text-center">Il tuo carrello è vuoto!</h2>
+                    <a href="../products.php" class="btn btn-main mt-20">Sfoglia prodotti</a>
+              </div>
+            </div>
+          </div>
+        </section>
+            ';
+          }
+        }
 
-					build_cart();
-
-
-
+					build_cart(get_cart_id());
 					?>
-                    <!--
-					<tr class="">
-                      <td class="">
-                        <div class="product-info">
-                          <img width="80" src="images/shop/cart/cart-1.jpg" alt="" />
-                          <a href="#!">Sunglass</a>
-                        </div>
-                      </td>
-                      <td class="">$200.00</td>
-                      <td class="">
-                        <a class="product-remove" href="#!">Remove</a>
-                      </td>
-                    </tr>
-                    <tr class="">
-                      <td class="">
-                        <div class="product-info">
-                          <img width="80" src="images/shop/cart/cart-2.jpg" alt="" />
-                          <a href="#!">Airspace</a>
-                        </div>
-                      </td>
-                      <td class="">$200.00</td>
-                      <td class="">
-                        <a class="product-remove" href="#!">Remove</a>
-                      </td>
-                    </tr>
-                    <tr class="">
-                      <td class="">
-                        <div class="product-info">
-                          <img width="80" src="images/shop/cart/cart-3.jpg" alt="" />
-                          <a href="#!">Bingo</a>
-                        </div>
-                      </td>
-                      <td class="">$200.00</td>
-                      <td class="">
-                        <a class="product-remove" href="#!">Remove</a>
-                      </td>
-                    </tr>
-
-				-->
-                  </tbody>
-                </table>
-                <a href="checkout.html" class="btn btn-main pull-right">Checkout</a>
-              </form>
             </div>
           </div>
         </div>

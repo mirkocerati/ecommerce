@@ -1,7 +1,14 @@
 <?php
 
-function print_product($id, $name, $description, $price, $category, $gender, $age, $upload_date, $stock_amount, $image_url) {
-    echo '<div class="col-md-4"><div class="product-item"><div class="product-thumb"><span class="bage">Sale</span><img class="img-responsive" src="' . $image_url . '" alt="product-img" />
+function print_product($id, $name, $description, $price, $category, $gender, $age, $upload_date, $stock_amount, $image_url, $sale_percentage) {
+	$sale_badge = "";
+	$final_price = "€ " . $price;
+	if($sale_percentage > 0) {
+		$sale_badge = '<span style="background-color: red;" class="bage">-'.$sale_percentage.'%</span>';
+		$final_price = "<s>€" . $price . "</s> €" . ($price - ($price * ($sale_percentage/100)));
+		//$sale_badge = '-'.$sale_percentage.'%';
+	}
+    echo '<div class="col-md-4"><div class="product-item"><div class="product-thumb">'.$sale_badge.'<img class="img-responsive" src="' . $image_url . '" alt="product-img" />
 						<div class="preview-meta">
 							<ul>
 								<li>
@@ -20,7 +27,7 @@ function print_product($id, $name, $description, $price, $category, $gender, $ag
 					</div>
 					<div class="product-content">
 						<h4><a href="product.php?id=' . $id . '">' . $name . '</a></h4>
-						<p class="price">' . $price . '</p>
+						<p class="price">' . $final_price . '</p>
 					</div>
 				</div>
 			</div>
@@ -42,11 +49,11 @@ function print_product($id, $name, $description, $price, $category, $gender, $ag
 			        		<div class="col-md-4 col-sm-6 col-xs-12">
 			        			<div class="product-short-details">
 			        				<h2 class="product-title">' . $name . '</h2>
-			        				<p class="product-price">' . $price . '</p>
+			        				<p class="product-price">' . $final_price . '</p>
 			        				<p class="product-short-description">
 									' . $description . '
 			        				</p>
-			        				<a href="cart.html" class="btn btn-main">Aggiungi al carrello</a>
+			        				<a href="https://mirko.lol/cart/add.php?id='.$id.'" class="btn btn-main">Aggiungi al carrello</a>
 			        				<a href="product.php?id='.$id.'" class="btn btn-transparent">Visualizza dettagli</a>
 			        			</div>
 			        		</div>

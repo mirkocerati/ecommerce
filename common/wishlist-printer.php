@@ -71,7 +71,7 @@ function print_wishlist_products($q) {
 echo $html;
 }
 
-$query_result = DBManager::getInstance()->Select("SELECT * FROM products AS p JOIN wishlist AS w WHERE w.user_id=? AND w.product_id=p.id;", ["i", $user_id]);
+$query_result = SQL::getInstance()->Select("SELECT * FROM products AS p JOIN wishlist AS w WHERE w.user_id=? AND w.product_id=p.id;", ["i", $user_id]);
 
 if(count($query_result) < 1) {
     print_empty_wishlist();

@@ -2,11 +2,11 @@
 function build_dropdown_single_product($id, $name, $price, $amount, $image_url) {
 	return '<!-- Cart Item -->
 	<div class="media">
-		<a class="pull-left" href="product.php?id='.$id.'">
+		<a class="pull-left" href="https://mirko.lol/product.php?id='.$id.'">
 			<img class="media-object" src="'.$image_url.'" alt="image" />
 		</a>
 		<div class="media-body">
-			<h4 class="media-heading"><a href="product.php?id='.$id.'">'.$name.'</a></h4>
+			<h4 class="media-heading"><a href="https://mirko.lol/product.php?id='.$id.'">'.$name.'</a></h4>
 			<div class="cart-price">
 				<span>x'.$amount.'</span>
 				<span>€ '.$price.'</span>
@@ -26,11 +26,11 @@ function build_dropdown_cart() {
 
 	if(isset($_COOKIE["cart"])) {
 	$cart_id = (int)$_COOKIE["cart"];
-	$cart_query_result = DBManager::getInstance()->Select("SELECT p.id, p.name, p.price, cp.amount FROM ((carts as c JOIN cart_products as cp) JOIN products as p) WHERE c.id=? AND c.id=cp.cart_id AND cp.product_id=p.id;", ["i", $cart_id]);
+	$cart_query_result = SQL::getInstance()->Select("SELECT p.id, p.name, p.price, cp.amount FROM ((carts as c JOIN cart_products as cp) JOIN products as p) WHERE c.id=? AND c.id=cp.cart_id AND cp.product_id=p.id;", ["i", $cart_id]);
 	
 	
 	foreach($cart_query_result as $cart_row) {
-		$imgquery = DBManager::getInstance()->Select("SELECT image_url FROM product_images where product_id=? LIMIT 1", ["i", $cart_row["id"]]);
+		$imgquery = SQL::getInstance()->Select("SELECT image_url FROM product_images where product_id=? LIMIT 1", ["i", $cart_row["id"]]);
 		$image_url = "https://mirko.lol/images/products/not_found.jpg";
 		foreach($imgquery as $imgrow) {
 			$image_url = $imgrow["image_url"];
@@ -48,16 +48,16 @@ if(!empty($cart_items)) {
 	<span class="total-price">€ '.$total.'</span>
 </div>
 <ul class="text-center cart-buttons">
-	<li><a href="cart.php" class="btn btn-small">Vai al carrello</a></li>
-	<li><a href="checkout.php" class="btn btn-small btn-solid-border">Checkout</a></li>
+	<li><a href="https://mirko.lol/cart" class="btn btn-small">Vai al carrello</a></li>
+	<li><a href="https://mirko.lol/checkout.php" class="btn btn-small btn-solid-border">Checkout</a></li>
 </ul>';
 } else {
 	return '<div class="cart-summary">
 	<span>Il tuo carrello è vuoto!</span>
 </div>
 <ul class="text-center cart-buttons">
-	<li><a href="cart.html" class="btn btn-small">Acquista</a></li>
-	<li><a href="checkout.html" class="btn btn-small btn-solid-border">Accedi</a></li>
+	<li><a href="https://mirko.lol/products.php" class="btn btn-small">Acquista</a></li>
+	<li><a href="https://mirko.lol/auth?auth_type=sign_in" class="btn btn-small btn-solid-border">Accedi</a></li>
 </ul>';
 }
 
@@ -88,7 +88,7 @@ function build_single_navbar_menu($name, $categorieshtml) {
 
 function build_navbar() {
 
-	$query_result = DBManager::getInstance()->Select("SELECT id, name FROM categories WHERE hidden=FALSE LIMIT 5");
+	$query_result = SQL::getInstance()->Select("SELECT id, name FROM categories WHERE hidden=FALSE LIMIT 5");
 
 $man = "";
 $woman = "";
@@ -97,15 +97,15 @@ $child = "";
 foreach($query_result as $row) {
 	$id = $row["id"];
 	$name = $row["name"];
-	$man .= '<li><a href="products.php?category=' . $id . '&gender=MAN&age=ADULT">' . $name . '</a></li>';
-	$woman .= '<li><a href="products.php?category=' . $id . '&gender=WOMAN&age=ADULT">' . $name . '</a></li>';
-	$child .= '<li><a href="products.php?category=' . $id . '&age=CHILD">' . $name . '</a></li>';
+	$man .= '<li><a href="https://mirko.lol/products.php?category=' . $id . '&gender=MAN&age=ADULT">' . $name . '</a></li>';
+	$woman .= '<li><a href="https://mirko.lol/products.php?category=' . $id . '&gender=WOMAN&age=ADULT">' . $name . '</a></li>';
+	$child .= '<li><a href="https://mirko.lol/products.php?category=' . $id . '&age=CHILD">' . $name . '</a></li>';
 }
 
 
-$man .= '<li><a href="products.php?gender=MAN&age=ADULT"><b>Visualizza tutto</b></a></li>';
-$woman .= '<li><a href="products.php?gender=WOMAN&age=ADULT"><b>Visualizza tutto</b></a></li>';
-$child .= '<li><a href="products.php?age=CHILD"><b>Visualizza tutto</b></a></li>';
+$man .= '<li><a href="https://mirko.lol/products.php?gender=MAN&age=ADULT"><b>Visualizza tutto</b></a></li>';
+$woman .= '<li><a href="https://mirko.lol/products.php?gender=WOMAN&age=ADULT"><b>Visualizza tutto</b></a></li>';
+$child .= '<li><a href="https://mirko.lol/products.php?age=CHILD"><b>Visualizza tutto</b></a></li>';
 return '</section><!-- End Top Header Bar -->
 <!-- Main Menu Section -->
 <section class="menu">
@@ -129,7 +129,7 @@ return '</section><!-- End Top Header Bar -->
 
 					<!-- Home -->
 					<li class="dropdown ">
-						<a href="index.php">Home</a>
+						<a href="https://mirko.lol/index.php">Home</a>
 					</li><!-- / Home -->
 
 
@@ -146,7 +146,7 @@ return '</section><!-- End Top Header Bar -->
 
 
 function print_header() {
-$category_query_result = DBManager::getInstance()->Select("SELECT id, name FROM categories WHERE hidden=FALSE");
+$category_query_result = SQL::getInstance()->Select("SELECT id, name FROM categories WHERE hidden=FALSE");
 
 $man = "";
 $woman = "";
@@ -155,19 +155,19 @@ $child = "";
 foreach($category_query_result as $row) {
 	$id = $row["id"];
 	$name = $row["name"];
-	$man .= '<li><a href="products.php?category=' . $id . '&gender=MAN&age=ADULT">' . $name . '</a></li>';
-	$woman .= '<li><a href="products.php?category=' . $id . '&gender=WOMAN&age=ADULT">' . $name . '</a></li>';
-	$child .= '<li><a href="products.php?category=' . $id . '&age=CHILD">' . $name . '</a></li>';
+	$man .= '<li><a href="https://mirko.lol/products.php?category=' . $id . '&gender=MAN&age=ADULT">' . $name . '</a></li>';
+	$woman .= '<li><a href="https://mirko.lol/products.php?category=' . $id . '&gender=WOMAN&age=ADULT">' . $name . '</a></li>';
+	$child .= '<li><a href="https://mirko.lol/products.php?category=' . $id . '&age=CHILD">' . $name . '</a></li>';
 }
 
 
-$man .= '<li><a href="products.php?gender=MAN&age=ADULT"><b>Visualizza tutto</b></a></li>';
-$woman .= '<li><a href="products.php?gender=WOMAN&age=ADULT"><b>Visualizza tutto</b></a></li>';
-$child .= '<li><a href="products.php?age=CHILD"><b>Visualizza tutto</b></a></li>';
+$man .= '<li><a href="https://mirko.lol/products.php?gender=MAN&age=ADULT"><b>Visualizza tutto</b></a></li>';
+$woman .= '<li><a href="https://mirko.lol/products.php?gender=WOMAN&age=ADULT"><b>Visualizza tutto</b></a></li>';
+$child .= '<li><a href="https://mirko.lol/products.php?age=CHILD"><b>Visualizza tutto</b></a></li>';
 
 $login_button_text = "Accedi";
 if(isset($_SESSION["user_id"])) {
-	$q = DBManager::getInstance()->Select("SELECT name FROM users WHERE id=?", ["i", $_SESSION["user_id"]]);
+	$q = SQL::getInstance()->Select("SELECT name FROM users WHERE id=?", ["i", $_SESSION["user_id"]]);
 	foreach($q as $r) {
 		$login_button_text = "Ciao, " . $r["name"] . "!";
 	}
@@ -204,7 +204,7 @@ echo '<section class="top-header">
 				<!-- Cart -->
 				<ul class="top-menu text-right list-inline">
 					<li class="dropdown cart-nav dropdown-slide height=45">
-						<a href="cart.php" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i
+						<a href="https://mirko.lol/cart/" class="dropdown-toggle" data-hover="dropdown"><i
 								class="tf-ion-android-cart"></i>Carrello</a>
 						<div class="dropdown-menu cart-dropdown">
 							'.build_dropdown_cart().'
@@ -214,7 +214,7 @@ echo '<section class="top-header">
 
 					<!-- Elements -->
 					<li class="dropdown dropdown-slide text-center">
-						<a href="account.php"><span class="tf-ion-ios-contact"></span> '.$login_button_text.'</a>
+						<a href="https://mirko.lol/account.php"><span class="tf-ion-ios-contact"></span> '.$login_button_text.'</a>
 					</li><!-- / Elements -->
 
 	

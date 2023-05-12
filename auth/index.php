@@ -27,7 +27,7 @@
 <body id="body">
 
 <?php
-require('../database/DBManager.php');
+require('../common/SQL.php');
 require('../common/header.php');
 require('auth_type_builder.php');
 

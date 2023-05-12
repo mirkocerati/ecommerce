@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('database/DBManager.php');
+require('common/SQL.php');
 require('auth/check_session.php');
 
 function get_label($order_status = "") {
@@ -70,7 +70,7 @@ function get_label($order_status = "") {
 
 require('common/header.php');
 
-$details_query_result = DBManager::getInstance()->Select("SELECT * FROM users WHERE id=?", ["i", (int)$_SESSION["user_id"]]);
+$details_query_result = SQL::getInstance()->Select("SELECT * FROM users WHERE id=?", ["i", (int)$_SESSION["user_id"]]);
 $name = "-"; $lastname = "-"; $email = "-"; $phone = "-"; $address = "-,-,-"; $birth_date = "-"; $image_url = "https://mirko.lol/images/users/blank.jpg";
 foreach($details_query_result as $row) {
 	$name = $row["name"]; $lastname = $row["lastname"]; $email = $row["email"]; $phone = $row["phone"];
@@ -79,7 +79,7 @@ foreach($details_query_result as $row) {
 	$image_url = $row["profile_picture"];
 }
 $orders_html = "";
-$orders_query_result = DBManager::getInstance()->Select("SELECT *, o.status as order_status FROM orders as o JOIN payments as p WHERE o.user_id=? AND o.payment_id=p.id", ["i", (int)$_SESSION["user_id"]]);
+$orders_query_result = SQL::getInstance()->Select("SELECT *, o.status as order_status FROM orders as o JOIN payments as p WHERE o.user_id=? AND o.payment_id=p.id", ["i", (int)$_SESSION["user_id"]]);
 
 foreach($orders_query_result as $row) {
 	$orders_html .= '<tr>

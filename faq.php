@@ -2,7 +2,7 @@
 
 session_start();
 
-require('database/DBManager.php');
+require('common/SQL.php');
 
 
 ?>

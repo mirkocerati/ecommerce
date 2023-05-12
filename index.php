@@ -1,6 +1,7 @@
 <?php
 session_start();
-require('database/DBManager.php');
+require('common/SQL.php');
+require('common/Alerts.php');
 
 ?>
 <!DOCTYPE html>
@@ -59,7 +60,7 @@ require('database/DBManager.php');
 	<div class="hero-slider">
 		<?php
 
-		$result = DBManager::getInstance()->Select("SELECT * FROM boards WHERE enabled=TRUE");
+		$result = SQL::getInstance()->Select("SELECT * FROM boards WHERE enabled=TRUE");
 
 		foreach ($result as $row) {
 			$title = $row["title"];
@@ -99,7 +100,7 @@ require('database/DBManager.php');
 
 			<?php
 
-			$query_result = DBManager::getInstance()->Select("SELECT p.* FROM ((products as p JOIN orders as o) JOIN carts as c) JOIN cart_products as cp WHERE o.status='COMPLETED' AND o.cart_id=c.id AND cp.cart_id=c.id AND p.id=cp.product_id ORDER BY o.creation_date LIMIT 6;");
+			$query_result = SQL::getInstance()->Select("SELECT p.* FROM ((products as p JOIN orders as o) JOIN carts as c) JOIN cart_products as cp WHERE o.status='COMPLETED' AND o.cart_id=c.id AND cp.cart_id=c.id AND p.id=cp.product_id ORDER BY o.creation_date LIMIT 6;");
 
 			require('common/product-button-creator.php');
 			require('common/product-image-query.php');
